@@ -1,0 +1,1241 @@
+openapi: 3.1.0
+x-stoplight:
+  id: wgxgvaueexnbs
+info:
+  title: Dashboard
+  version: '1.0'
+servers:
+  - url: 'http://localhost:4010'
+    description: Server
+tags:
+  - name: Atua
+  - name: History
+  - name: Notes
+  - name: Sectors
+  - name: Tasks
+  - name: Tickets
+  - name: Users
+paths:
+  /users:
+    get:
+      summary: Get Many Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: get-users
+      tags:
+        - Users
+    post:
+      summary: Create a User
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: post-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                fullName:
+                  type: string
+                cellphone:
+                  type: string
+                sectorId:
+                  type: integer
+                roleName:
+                  $ref: '#/components/schemas/RoleEnum'
+              required:
+                - username
+                - fullName
+                - cellphone
+            examples: {}
+      tags:
+        - Users
+  /users/me:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-users-me
+  /users/login:
+    post:
+      summary: Login User
+      operationId: post-users-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/User'
+                  - type: object
+                    properties:
+                      jwt:
+                        type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+        description: ''
+      security: []
+      tags:
+        - Users
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get a User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-users-userId
+      description: ''
+    patch:
+      summary: Update a User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-users-userId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                fullname:
+                  type: string
+                cellphone:
+                  type: string
+                sectorId:
+                  type: integer
+                roleName:
+                  $ref: '#/components/schemas/RoleEnum'
+    delete:
+      summary: Delete a User
+      tags:
+        - Users
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: delete-users-userId
+  '/users/{userId}/sectors':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get User Sector
+      operationId: get-users-userId-sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - Sectors
+        - Users
+  /tasks:
+    post:
+      summary: Create a Task
+      tags:
+        - Tasks
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: post-tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                sequence:
+                  type: integer
+              required:
+                - title
+                - sequence
+    get:
+      summary: Get Many Tasks
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: get-tasks
+  '/tasks/{taskId}':
+    parameters:
+      - schema:
+          type: number
+        name: taskId
+        in: path
+        required: true
+    get:
+      summary: Get a Task
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+      operationId: get-tasks-taskId
+    patch:
+      summary: Update a Task
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: patch-tasks-taskId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                sequence:
+                  type: integer
+    delete:
+      summary: Delete a Task
+      tags:
+        - Tasks
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: delete-tasks-taskId
+  '/tasks/{taskId}/tickets':
+    parameters:
+      - schema:
+          type: number
+        name: taskId
+        in: path
+        required: true
+    get:
+      summary: Get Tickets of Task
+      tags:
+        - Tasks
+        - Tickets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+      operationId: get-tasks-taskId-tickets
+  /sectors:
+    post:
+      summary: Create a Sector
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+      operationId: post-sectors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+      tags:
+        - Sectors
+    get:
+      summary: Get Many Sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sector'
+      operationId: get-sectors
+      tags:
+        - Sectors
+    parameters: []
+  '/sectors/{sectorId}':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get a Sector
+      tags:
+        - Sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: get-sectors-sectorId
+    patch:
+      summary: Update a Sector
+      tags:
+        - Sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-sectors-sectorId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+    delete:
+      summary: Delete a Sector
+      tags:
+        - Sectors
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: delete-sectors-sectorId
+  '/sectors/{sectorId}/task-permissions':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get Task Permissions Of Sector
+      tags:
+        - Sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskPermission'
+              examples: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-task-permissions
+    put:
+      summary: Set Task Permission of Sector
+      tags:
+        - Sectors
+      operationId: put-sectors-sectorId-task-permissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  taskId:
+                    type: integer
+                  action:
+                    $ref: '#/components/schemas/ActionEnum'
+            examples: {}
+      description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskPermission'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /tickets:
+    post:
+      summary: Create a Ticket
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: post-tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                licensePlate:
+                  type: string
+                price:
+                  type: number
+                originCity:
+                  type: string
+                destinyCity:
+                  type: string
+                clientName:
+                  type: string
+                status:
+                  $ref: '#/components/schemas/StatusEnum'
+                loadingDate:
+                  type: string
+                stopOver:
+                  type: string
+                product:
+                  type: string
+                isTrocaNota:
+                  type: boolean
+                driverName:
+                  type: string
+                taskId:
+                  type: integer
+              required:
+                - licensePlate
+                - price
+                - originCity
+                - destinyCity
+                - clientName
+                - status
+                - loadingDate
+                - stopOver
+                - product
+                - isTrocaNota
+                - driverName
+                - taskId
+            examples:
+              example-1:
+                value:
+                  licensePlate: string
+                  price: 0
+                  originCity: string
+                  destinyCity: string
+                  clientName: string
+                  status: string
+                  loadingDate: string
+                  stopOver: string
+                  product: string
+                  isTrocaNota: true
+                  driverName: string
+                  taskId: 0
+        description: ''
+      description: ''
+      tags:
+        - Tickets
+    parameters: []
+  '/tickets/{ticketId}':
+    parameters:
+      - schema:
+          type: string
+        name: ticketId
+        in: path
+        required: true
+    patch:
+      summary: Update a Ticket
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-tickets-ticketId
+      tags:
+        - Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  licensePlate: string
+                  price: 0
+                  originCity: string
+                  destinyCity: string
+                  clientName: string
+                  status: string
+                  loadingDate: string
+                  stopOver: string
+                  product: string
+                  isTrocaNota: true
+                  driverName: string
+                  taskId: 0
+              properties:
+                licensePlate:
+                  type: string
+                price:
+                  type: integer
+                originCity:
+                  type: string
+                destinyCity:
+                  type: string
+                clientName:
+                  type: string
+                status:
+                  type: string
+                loadingDate:
+                  type: string
+                stopOver:
+                  type: string
+                product:
+                  type: string
+                isTrocaNota:
+                  type: boolean
+                driverName:
+                  type: string
+                isPriority:
+                  type: boolean
+        name: ticketId
+        in: path
+        required: true
+    get:
+      summary: Get One Ticket
+      operationId: get-tickets-ticketId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - Tickets
+  '/tickets/{ticketId}/history':
+    parameters:
+      - schema:
+          type: string
+        name: ticketId
+        in: path
+        required: true
+    get:
+      summary: Get Ticket History
+      tags:
+        - Tickets
+        - History
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketHistory'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-tickets-ticketId-history
+      description: ''
+  '/tickets/{ticketId}/notes':
+    parameters:
+      - schema:
+          type: string
+        name: ticketId
+        in: path
+        required: true
+    get:
+      summary: Get Ticket Notes.
+      tags:
+        - Tickets
+        - Notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketNote'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-tickets-ticketId-notes
+  /notes:
+    post:
+      summary: Create Note
+      tags:
+        - Notes
+      responses: {}
+      operationId: post-notes
+  '/notes/{noteId}':
+    parameters:
+      - schema:
+          type: string
+        name: noteId
+        in: path
+        required: true
+    patch:
+      summary: Update Note
+      tags:
+        - Notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketNote'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-notes-noteId
+    delete:
+      summary: Delete Note
+      tags:
+        - Notes
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: delete-notes-noteId
+  /atua/ordem-carregamento:
+    post:
+      summary: Atua - Ordem de Carregamento
+      operationId: post-atua
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  licensePlate: string
+                  price: 0
+                  originCity: string
+                  destinyCity: string
+                  clientName: string
+                  status: string
+                  loadingDate: string
+                  stopOver: string
+                  product: string
+                  isTrocaNota: true
+                  driverName: string
+                  taskId: 0
+              properties:
+                licensePlate:
+                  type: string
+                  description: Placa do veículo
+                origin:
+                  $ref: '#/components/schemas/City'
+                destiny:
+                  $ref: '#/components/schemas/City'
+                clientName:
+                  type: string
+                  description: Nome do cliente
+                loadingDate:
+                  type: string
+                  format: date
+                  description: Data em que o carregamento acontecerá. Padrão ISO 8601
+                product:
+                  type: string
+                  description: Produto a ser transportado
+                driverName:
+                  type: string
+                  description: Nome do motorista
+                username:
+                  type: string
+                  description: Nome do usuário que emitiu a ordem de carregamento. Presente no PDF em "ASSINATURA DO USUÁRIO ......"
+              required:
+                - licensePlate
+                - origin
+                - destiny
+                - clientName
+                - loadingDate
+                - product
+                - driverName
+                - username
+      description: |-
+        Web hook chamado quando uma nova ordem de carregamento é emitida. 
+        Cria um novo cartão.
+      security: []
+      tags:
+        - Atua
+        - Tickets
+    parameters: []
+components:
+  schemas:
+    Error:
+      title: Error
+      type: object
+      description: ''
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+      required:
+        - statusCode
+        - message
+        - error
+    User:
+      title: User
+      type: object
+      description: ''
+      examples: []
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        username:
+          type: string
+        fullName:
+          type: string
+        cellphone:
+          type: string
+        sector:
+          $ref: '#/components/schemas/Sector'
+        roleName:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+        - id
+        - username
+        - fullName
+        - cellphone
+        - roleName
+    Task:
+      type: object
+      title: Task
+      x-stoplight:
+        id: 8uiowevk0wh0o
+      description: ''
+      maxProperties: 10
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          maxLength: 20
+        sequence:
+          type: integer
+          minimum: 0
+          maximum: 99
+        '':
+          type: string
+      required:
+        - id
+        - title
+        - sequence
+    Sector:
+      title: Sector
+      x-stoplight:
+        id: q24y3esykbdem
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - description
+    TicketNote:
+      title: TicketNote
+      x-stoplight:
+        id: wkk2h44kvtmzy
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+      required:
+        - id
+        - content
+        - createdAt
+        - createdBy
+    TicketHistory:
+      title: TicketHistory
+      x-stoplight:
+        id: o5guzifogz8bg
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        fromStage:
+          $ref: '#/components/schemas/Task'
+        toStage:
+          $ref: '#/components/schemas/Task'
+        triggeredBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+      required:
+        - id
+        - createdAt
+        - triggeredBy
+    Ticket:
+      type: object
+      x-examples:
+        example-1:
+          id: 0
+          driverName: string
+          licensePlate: string
+          clientName: string
+          originCity: string
+          destinyCity: string
+      description: ''
+      examples: []
+      title: Ticket
+      properties:
+        id:
+          type: integer
+        licensePlate:
+          type: string
+          maxLength: 10
+        driverName:
+          type: string
+          maxLength: 20
+        clientName:
+          type: string
+          maxLength: 20
+        originCity:
+          type: string
+          maxLength: 20
+        destinyCity:
+          type: string
+          maxLength: 20
+        price:
+          type: number
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        stopOver:
+          type: string
+        product:
+          type: string
+        isTrocaNota:
+          type: boolean
+        loadingDate:
+          type: string
+          format: date
+        isPriotity:
+          type: boolean
+        isRiskManaged:
+          type: boolean
+      required:
+        - id
+        - licensePlate
+        - driverName
+        - clientName
+        - originCity
+        - destinyCity
+        - price
+        - status
+        - stopOver
+        - product
+        - isTrocaNota
+        - loadingDate
+    TaskPermission:
+      title: TaskPermission
+      x-stoplight:
+        id: wru6p9l95i0ea
+      type: object
+      properties:
+        id:
+          type: integer
+        task:
+          $ref: '#/components/schemas/Task'
+        sector:
+          $ref: '#/components/schemas/Sector'
+        action:
+          $ref: '#/components/schemas/ActionEnum'
+    ActionEnum:
+      type: string
+      title: ActionEnum
+      x-stoplight:
+        id: zxjwjmom5iez5
+      enum:
+        - CREATE
+        - VIEW
+        - UPDATE
+        - DELETE
+      examples: []
+    RoleEnum:
+      type: string
+      title: RoleEnum
+      x-stoplight:
+        id: v74rib6b060uu
+      enum:
+        - ADMIN
+        - USER
+        - SUPER_ADMIN
+    StatusEnum:
+      title: StatusEnum
+      x-stoplight:
+        id: sy1f14pfhhcxl
+      type: string
+    City:
+      title: City
+      x-stoplight:
+        id: nzvw5uufwxtmf
+      type: object
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+      required:
+        - city
+        - state
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+  responses:
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Example:
+              value:
+                statusCode: 400
+                message: string
+                error: Bad Request
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Example:
+              value:
+                statusCode: 401
+                message: string
+                error: Unauthorized
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Example:
+              value:
+                statusCode: 403
+                message: string
+                error: Forbidden
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Example:
+              value:
+                statusCode: 404
+                message: string
+                error: Not Found
+    '422':
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Example:
+              value:
+                statusCode: 422
+                message: string
+                error: Unprocessable Entity
+  requestBodies: {}
+security:
+  - JWT: []
