@@ -145,7 +145,7 @@ paths:
   '/users/{userId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: userId
         in: path
         required: true
@@ -225,7 +225,7 @@ paths:
   '/users/{userId}/sectors':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: userId
         in: path
         required: true
@@ -303,7 +303,7 @@ paths:
   '/tasks/{taskId}':
     parameters:
       - schema:
-          type: number
+          type: integer
         name: taskId
         in: path
         required: true
@@ -368,7 +368,7 @@ paths:
   '/tasks/{taskId}/tickets':
     parameters:
       - schema:
-          type: number
+          type: integer
         name: taskId
         in: path
         required: true
@@ -430,7 +430,7 @@ paths:
   '/sectors/{sectorId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: sectorId
         in: path
         required: true
@@ -509,7 +509,7 @@ paths:
   '/sectors/{sectorId}/task-permissions':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: sectorId
         in: path
         required: true
@@ -636,10 +636,30 @@ paths:
       tags:
         - Tickets
     parameters: []
+    get:
+      summary: Get many Tickets.
+      operationId: get-tickets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - Tickets
   '/tickets/{ticketId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: ticketId
         in: path
         required: true
@@ -736,10 +756,24 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - Tickets
+    delete:
+      summary: Delete a Ticket.
+      operationId: delete-tickets-ticketId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   '/tickets/{ticketId}/history':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: ticketId
         in: path
         required: true
@@ -770,7 +804,7 @@ paths:
   '/tickets/{ticketId}/notes':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: ticketId
         in: path
         required: true
@@ -797,22 +831,29 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-tickets-ticketId-notes
-  /notes:
     post:
-      summary: Create Note
+      summary: Create a Note.
+      operationId: post-tickets-ticketId-notes
+      responses:
+        '200':
+          description: OK
       tags:
         - Notes
-      responses: {}
-      operationId: post-notes
-  '/notes/{noteId}':
+        - Tickets
+  'tickets/{ticketId}/notes/{noteId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: noteId
         in: path
         required: true
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
     patch:
-      summary: Update Note
+      summary: Update a Note.
       tags:
         - Notes
       responses:
@@ -832,7 +873,7 @@ paths:
           $ref: '#/components/responses/404'
       operationId: patch-notes-noteId
     delete:
-      summary: Delete Note
+      summary: Delete a Note.
       tags:
         - Notes
       responses:
