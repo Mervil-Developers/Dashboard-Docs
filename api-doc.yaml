@@ -957,6 +957,35 @@ paths:
         - Atua
         - Tickets
     parameters: []
+  '/tickets/{ticketId}/tasks/{taskId}':
+    parameters:
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
+      - schema:
+          type: integer
+        name: taskId
+        in: path
+        required: true
+    get:
+      summary: Return Ticket.
+      tags:
+        - Tickets
+        - Tasks
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-tickets-ticketId-tasks-taskId
 components:
   schemas:
     Error:
