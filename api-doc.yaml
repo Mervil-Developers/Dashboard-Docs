@@ -1276,6 +1276,7 @@ components:
         - VIEW
         - UPDATE
         - DELETE
+        - PASS
       examples: []
     RoleEnum:
       type: string
