@@ -603,8 +603,6 @@ paths:
                   type: string
                 clientName:
                   type: string
-                status:
-                  $ref: '#/components/schemas/StatusEnum'
                 loadingDate:
                   type: string
                 stopOver:
@@ -617,34 +615,22 @@ paths:
                   type: string
                 taskId:
                   type: integer
+                status:
+                  $ref: '#/components/schemas/StatusEnum'
+                isRiskManaged:
+                  type: boolean
               required:
                 - licensePlate
                 - price
                 - originCity
                 - destinyCity
                 - clientName
-                - status
                 - loadingDate
                 - stopOver
                 - product
-                - isTrocaNota
                 - driverName
                 - taskId
-            examples:
-              example-1:
-                value:
-                  licensePlate: string
-                  price: 0
-                  originCity: string
-                  destinyCity: string
-                  clientName: string
-                  status: string
-                  loadingDate: string
-                  stopOver: string
-                  product: string
-                  isTrocaNota: true
-                  driverName: string
-                  taskId: 0
+            examples: {}
         description: ''
       description: ''
       tags:
@@ -703,7 +689,11 @@ paths:
                   type: integer
                 originCity:
                   type: string
+                originState:
+                  type: string
                 destinyCity:
+                  type: string
+                destinyState:
                   type: string
                 clientName:
                   type: string
@@ -720,6 +710,8 @@ paths:
                 driverName:
                   type: string
                 isPriority:
+                  type: boolean
+                isRiskManaged:
                   type: boolean
         name: ticketId
         in: path
@@ -1049,6 +1041,9 @@ components:
           $ref: '#/components/schemas/Task'
         triggeredBy:
           type: object
+          required:
+            - id
+            - username
           properties:
             id:
               type: integer
@@ -1119,6 +1114,8 @@ components:
         - product
         - isTrocaNota
         - loadingDate
+        - isPriotity
+        - isRiskManaged
     TaskPermission:
       title: TaskPermission
       x-stoplight:
@@ -1154,10 +1151,14 @@ components:
         - USER
         - SUPER_ADMIN
     StatusEnum:
+      type: string
       title: StatusEnum
       x-stoplight:
         id: sy1f14pfhhcxl
-      type: string
+      enum:
+        - DECLINED
+        - IN_PROGRESS
+        - NOT_STARTED
     City:
       title: City
       x-stoplight:
