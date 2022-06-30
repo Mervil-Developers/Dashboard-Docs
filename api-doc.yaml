@@ -688,20 +688,6 @@ paths:
           application/json:
             schema:
               type: object
-              x-examples:
-                example-1:
-                  licensePlate: string
-                  price: 0
-                  originCity: string
-                  destinyCity: string
-                  clientName: string
-                  status: string
-                  loadingDate: string
-                  stopOver: string
-                  product: string
-                  isTrocaNota: true
-                  driverName: string
-                  taskId: 0
               properties:
                 licensePlate:
                   type: string
