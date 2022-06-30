@@ -823,25 +823,45 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketNote'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - Notes
-        - Tickets
-  'tickets/{ticketId}/notes/{noteId}':
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+  '/tickets/{ticketId}/notes/{noteId}':
     parameters:
-      - schema:
-          type: integer
-        name: noteId
-        in: path
-        required: true
       - schema:
           type: integer
         name: ticketId
         in: path
         required: true
+      - schema:
+          type: integer
+        name: noteId
+        in: path
+        required: true
     patch:
       summary: Update a Note.
-      tags:
-        - Notes
+      operationId: patch-tickets-ticketId-notes-noteId
       responses:
         '200':
           description: OK
@@ -857,11 +877,19 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      operationId: patch-notes-noteId
-    delete:
-      summary: Delete a Note.
       tags:
         - Notes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+    delete:
+      summary: Delete a Note.
+      operationId: delete-tickets-ticketId-notes-noteId
       responses:
         '204':
           description: No Content
@@ -873,7 +901,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      operationId: delete-notes-noteId
+      tags:
+        - Notes
   /atua/ordem-carregamento:
     post:
       summary: Atua - Ordem de Carregamento
@@ -972,6 +1001,57 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-tickets-ticketId-tasks-taskId
+  '/tickets/{ticketId}/tasks/next':
+    parameters:
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
+    put:
+      summary: Pass a Ticket to next task.
+      operationId: put-tickets-ticketId-tasks-next
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - Tickets
+  '/tickets/{ticketId}tasks/{taskId}':
+    parameters:
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
+      - schema:
+          type: integer
+        name: taskId
+        in: path
+        required: true
+    put:
+      summary: Return a Ticket to a task.
+      operationId: put-tickets-ticketId-tasks-taskId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - Tickets
 components:
   schemas:
     Error:
