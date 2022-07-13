@@ -1258,6 +1258,33 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - Tickets
+  /solicitations:
+    post:
+      summary: Create a Solicitation.
+      tags:
+        - Tickets
+        - Solicitations
+      responses: {}
+      operationId: post-solicitations
+  '/solicitations/{solicitationId}':
+    parameters:
+      - schema:
+          type: string
+        name: solicitationId
+        in: path
+        required: true
+    patch:
+      summary: Analyze a Solicitation.
+      tags:
+        - Solicitations
+      responses: {}
+      operationId: patch-solicitations-solicitationId
+    delete:
+      summary: Delete a Solicitation.
+      tags:
+        - Solicitations
+      responses: {}
+      operationId: delete-solicitations-solicitationId
 components:
   schemas:
     Error:
@@ -1317,8 +1344,6 @@ components:
           type: integer
           minimum: 0
           maximum: 99
-        '':
-          type: string
       required:
         - id
         - title
@@ -1353,12 +1378,7 @@ components:
           type: string
           format: date-time
         createdBy:
-          type: object
-          properties:
-            id:
-              type: integer
-            username:
-              type: string
+          $ref: '#/components/schemas/CondensedUser'
       required:
         - id
         - content
@@ -1372,27 +1392,20 @@ components:
       properties:
         id:
           type: integer
-        content:
-          type: string
+        action:
+          $ref: '#/components/schemas/HistoryActions'
         createdAt:
           type: string
           format: date-time
-        fromStage:
+        movedFrom:
           $ref: '#/components/schemas/Task'
-        toStage:
+        movedTo:
           $ref: '#/components/schemas/Task'
         triggeredBy:
-          type: object
-          required:
-            - id
-            - username
-          properties:
-            id:
-              type: integer
-            username:
-              type: string
+          $ref: '#/components/schemas/CondensedUser'
       required:
         - id
+        - action
         - createdAt
         - triggeredBy
     Ticket:
@@ -1466,10 +1479,8 @@ components:
       properties:
         id:
           type: integer
-        task:
-          $ref: '#/components/schemas/Task'
-        sector:
-          $ref: '#/components/schemas/Sector'
+        taskId:
+          type: integer
         action:
           $ref: '#/components/schemas/ActionEnum'
     ActionEnum:
@@ -1515,6 +1526,32 @@ components:
       required:
         - city
         - state
+    HistoryActions:
+      type: string
+      title: HistoryActions
+      x-stoplight:
+        id: 6h3douhf2n84d
+      enum:
+        - CREATED
+        - DELETED
+        - PASSED
+        - RETURNED
+        - UPDATED
+        - PRIORITY_UPDATED
+        - RISK_MANAGED_UPDATED
+    CondensedUser:
+      title: CondensedUser
+      x-stoplight:
+        id: 0ayy2njfybvh4
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+      required:
+        - id
+        - username
   securitySchemes:
     JWT:
       type: http
