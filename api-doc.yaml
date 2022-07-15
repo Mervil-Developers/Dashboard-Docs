@@ -14,6 +14,7 @@ tags:
   - name: History
   - name: Notes
   - name: Sectors
+  - name: Solicitations
   - name: Tasks
   - name: Tickets
   - name: Users
@@ -264,6 +265,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -279,9 +282,12 @@ paths:
                   type: string
                 sequence:
                   type: integer
+                isTimeManaged:
+                  type: boolean
               required:
                 - title
                 - sequence
+                - isTimeManaged
     get:
       summary: Get Many Tasks
       tags:
@@ -393,12 +399,20 @@ paths:
     post:
       summary: Create a Sector
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Sector'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: post-sectors
       requestBody:
         content:
@@ -410,8 +424,16 @@ paths:
                   type: string
                 description:
                   type: string
+                shiftStart:
+                  type: string
+                  format: time
+                shiftEnd:
+                  type: string
+                  format: time
               required:
                 - name
+                - shiftStart
+                - shiftEnd
       tags:
         - Sectors
     get:
@@ -425,6 +447,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Sector'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
       operationId: get-sectors
       tags:
         - Sectors
@@ -484,6 +512,12 @@ paths:
                   type: string
                 description:
                   type: string
+                shiftEnd:
+                  type: string
+                  format: time
+                shiftStart:
+                  type: string
+                  format: time
           application/xml:
             schema:
               type: object
@@ -1264,8 +1298,32 @@ paths:
       tags:
         - Tickets
         - Solicitations
-      responses: {}
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: post-solicitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketId:
+                  type: integer
+              required:
+                - ticketId
   '/solicitations/{solicitationId}':
     parameters:
       - schema:
@@ -1279,12 +1337,119 @@ paths:
         - Solicitations
       responses: {}
       operationId: patch-solicitations-solicitationId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+              required:
+                - approved
     delete:
       summary: Delete a Solicitation.
       tags:
         - Solicitations
-      responses: {}
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: delete-solicitations-solicitationId
+  '/sectors/{sectorId}/solicitations':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get Sector Solicitations.
+      tags:
+        - Sectors
+        - Solicitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Solicitation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-solicitations
+  '/sectors/{sectorId}/responsible-tasks':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get tasks sector is responsible for
+      tags:
+        - Sectors
+        - Tasks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-responsible-tasks
+    put:
+      summary: Set tasks sector is responsible for
+      tags:
+        - Sectors
+        - Tasks
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: put-sectors-sectorId-responsible-tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tasksIds:
+                  type: array
+                  items:
+                    type: integer
+              required:
+                - tasksIds
 components:
   schemas:
     Error:
@@ -1344,10 +1509,12 @@ components:
           type: integer
           minimum: 0
           maximum: 99
+        isTimeManaged:
+          type: boolean
       required:
         - id
         - title
-        - sequence
+        - isTimeManaged
     Sector:
       title: Sector
       x-stoplight:
@@ -1360,10 +1527,18 @@ components:
           type: string
         description:
           type: string
+        shiftStart:
+          type: string
+          format: time
+        shiftEnd:
+          type: string
+          format: time
       required:
         - id
         - name
         - description
+        - shiftStart
+        - shiftEnd
     TicketNote:
       title: TicketNote
       x-stoplight:
@@ -1552,6 +1727,37 @@ components:
       required:
         - id
         - username
+    Solicitation:
+      title: Solicitation
+      x-stoplight:
+        id: rq14fyzc5z72v
+      type: object
+      properties:
+        id:
+          type: integer
+        createdBy:
+          $ref: '#/components/schemas/CondensedUser'
+        analyzedBy:
+          $ref: '#/components/schemas/CondensedUser'
+        createdAt:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/SolicitationStatus'
+        ticketId:
+          type: integer
+      required:
+        - id
+        - createdBy
+    SolicitationStatus:
+      type: string
+      title: SolicitationStatus
+      x-stoplight:
+        id: x4f0lygijltst
+      enum:
+        - APPROVED
+        - IN_PROGRESS
+        - DECLINED
   securitySchemes:
     JWT:
       type: http
