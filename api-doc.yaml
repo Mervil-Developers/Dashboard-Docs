@@ -1327,7 +1327,7 @@ paths:
   '/solicitations/{solicitationId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: solicitationId
         in: path
         required: true
