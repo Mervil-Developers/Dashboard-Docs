@@ -355,6 +355,8 @@ paths:
                   type: string
                 sequence:
                   type: integer
+                isTimeManaged:
+                  type: boolean
     delete:
       summary: Delete a Task
       tags:
@@ -1450,6 +1452,63 @@ paths:
                     type: integer
               required:
                 - tasksIds
+  '/sectors/{sectorId}/shifts':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get Sector Shifts.
+      tags:
+        - Sectors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shift'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-shifts
+    put:
+      summary: Update Sector Shifts.
+      tags:
+        - Sectors
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: put-sectors-sectorId-shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shifts:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Shift'
+              required:
+                - shifts
 components:
   schemas:
     Error:
@@ -1758,6 +1817,26 @@ components:
         - APPROVED
         - IN_PROGRESS
         - DECLINED
+    Shift:
+      title: Shift
+      x-stoplight:
+        id: qf1istfxx6hna
+      type: object
+      properties:
+        startHour:
+          type: string
+          format: time
+        endHour:
+          type: string
+          format: time
+        dayOfWeek:
+          type: number
+          minimum: 1
+          maximum: 7
+      required:
+        - startHour
+        - endHour
+        - dayOfWeek
   securitySchemes:
     JWT:
       type: http
