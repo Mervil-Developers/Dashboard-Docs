@@ -701,7 +701,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - Completed
+        - Deleted
   '/tickets/{ticketId}':
     parameters:
       - schema:
@@ -1068,7 +1068,7 @@ paths:
       operationId: get-completed-tickets-ticketId-history
       description: ''
       tags:
-        - History
+        - Completed
   '/tickets/{ticketId}/notes':
     parameters:
       - schema:
@@ -1496,6 +1496,16 @@ paths:
         - Solicitations
       responses: {}
       operationId: post-solicitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketId:
+                  type: number
+              required:
+                - ticketId
   '/solicitations/{solicitationId}':
     parameters:
       - schema:
