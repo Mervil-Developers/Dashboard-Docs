@@ -1618,6 +1618,14 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: patch-solicitations-solicitationId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
     delete:
       summary: Delete a Solicitation.
       tags:
