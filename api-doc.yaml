@@ -1705,7 +1705,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get Solicitations of Sector.
       tags:
         - Solicitations
       responses:
