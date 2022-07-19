@@ -82,7 +82,7 @@ paths:
         - Users
   /users/me:
     get:
-      summary: Your GET endpoint
+      summary: Get Logged User.
       tags:
         - Users
       responses:
@@ -1606,13 +1606,33 @@ paths:
       summary: Analyze a Solicitation.
       tags:
         - Solicitations
-      responses: {}
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: patch-solicitations-solicitationId
     delete:
       summary: Delete a Solicitation.
       tags:
         - Solicitations
-      responses: {}
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: delete-solicitations-solicitationId
   /reports/time:
     get:
@@ -1677,6 +1697,36 @@ paths:
           in: query
           name: toDate
     parameters: []
+  '/sectors/{sectorId}/solicitations':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Solicitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Solicitation'
+              examples: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-solicitations
 components:
   schemas:
     Error:
@@ -1944,6 +1994,41 @@ components:
       required:
         - id
         - username
+    Solicitation:
+      title: Solicitation
+      x-stoplight:
+        id: x9srzjfznh5pf
+      type: object
+      properties:
+        id:
+          type: number
+        createdBy:
+          $ref: '#/components/schemas/CondensedUser'
+        analyzedBy:
+          $ref: '#/components/schemas/CondensedUser'
+        createdAt:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/SolicitatioNStatus'
+        ticketId:
+          type: number
+      required:
+        - id
+        - createdBy
+        - analyzedBy
+        - createdAt
+        - status
+        - ticketId
+    SolicitatioNStatus:
+      type: string
+      title: SolicitationStatus
+      x-stoplight:
+        id: v8w5tjutyaoam
+      enum:
+        - APPROVED
+        - IN_PROGRESS
+        - DECLINED
   securitySchemes:
     JWT:
       type: http
