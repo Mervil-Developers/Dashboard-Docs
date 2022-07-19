@@ -1069,6 +1069,36 @@ paths:
       description: ''
       tags:
         - Completed
+  '/deleted-tickets/{ticketId}/history':
+    parameters:
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
+    get:
+      summary: Get Ticket History
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketHistory'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-deleted-tickets-ticketId-history
+      description: ''
+      tags:
+        - Deleted
   '/tickets/{ticketId}/notes':
     parameters:
       - schema:
@@ -1188,6 +1218,65 @@ paths:
                 - content
       tags:
         - Completed
+  '/deleted-tickets/{ticketId}/notes':
+    parameters:
+      - schema:
+          type: integer
+        name: ticketId
+        in: path
+        required: true
+    get:
+      summary: Get Ticket Notes.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketNote'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-deleted-tickets-ticketId-notes
+      tags:
+        - Deleted
+    post:
+      summary: Create a Note.
+      operationId: post-deleted-tickets-ticketId-notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketNote'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      tags:
+        - Deleted
   '/tickets/{ticketId}/notes/{noteId}':
     parameters:
       - schema:
@@ -1527,8 +1616,10 @@ paths:
       operationId: delete-solicitations-solicitationId
   /reports/time:
     get:
-      summary: Create Time Report.
-      tags: []
+      summary: Get Time Report.
+      tags:
+        - Report
+        - Tickets
       responses:
         '200':
           description: OK
