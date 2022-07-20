@@ -1745,6 +1745,119 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: get-sectors-sectorId-solicitations
+  '/sectors/{sectorId}/tasks':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get tasks sector is responsible for.
+      tags:
+        - Tasks
+        - Sectors
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-tasks
+    put:
+      summary: Set tasks sector is responsible for.
+      tags:
+        - Tasks
+        - Sectors
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: put-sectors-sectorId-tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tasksIds:
+                  type: array
+                  items:
+                    type: number
+              required:
+                - tasksIds
+  '/sectors/{sectorId}/shifts':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    get:
+      summary: Get sector shifts.
+      tags:
+        - Sectors
+        - Shifts
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-sectors-sectorId-shifts
+    put:
+      summary: Set sector shifts.
+      tags:
+        - Sectors
+        - Shifts
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: put-sectors-sectorId-shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shifts:
+                  type: object
+                  properties:
+                    startHour:
+                      type: string
+                      format: date-time
+                    endHour:
+                      type: string
+                      format: date
+                    dayOfWeek:
+                      type: number
+                      minimum: 1
+                      maximum: 7
 components:
   schemas:
     Error:
