@@ -1583,7 +1583,17 @@ paths:
       tags:
         - Tickets
         - Solicitations
-      responses: {}
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: post-solicitations
       requestBody:
         content:
