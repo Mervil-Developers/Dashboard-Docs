@@ -1870,6 +1870,39 @@ paths:
                       maximum: 7
             examples: {}
         description: ''
+  /reports/moment:
+    post:
+      summary: Manually create a Moment.
+      tags:
+        - Reports
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/403'
+      operationId: post-reports-moment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticketId:
+                  type: number
+                action:
+                  type: string
+                  enum:
+                    - START
+                    - STOP
+              required:
+                - ticketId
+                - action
 components:
   schemas:
     Error:
