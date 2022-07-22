@@ -1681,17 +1681,31 @@ paths:
                           type: number
                         timeInSeconds:
                           type: number
+                          minimum: 0
+                      required:
+                        - taskId
                   details:
                     type: array
                     items:
                       type: object
                       properties:
-                        taskId:
-                          type: number
                         ticketId:
                           type: number
-                        timeInSeconds:
-                          type: number
+                        durations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              taskId:
+                                type: number
+                              timeInSeconds:
+                                type: number
+                                minimum: 0
+                            required:
+                              - taskId
+                              - timeInSeconds
+                      required:
+                        - durations
         '400':
           $ref: '#/components/responses/400'
         '401':
