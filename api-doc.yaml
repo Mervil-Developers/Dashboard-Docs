@@ -1706,20 +1706,24 @@ paths:
             type: number
           in: query
           name: fromTaskId
+          required: true
         - schema:
             type: number
           in: query
           name: toTaskId
+          required: true
         - schema:
             type: string
-            format: date
+            format: date-time
           in: query
           name: fromDate
+          required: true
         - schema:
             type: string
-            format: date
+            format: date-time
           in: query
           name: toDate
+          required: true
     parameters: []
   '/sectors/{sectorId}/solicitations':
     parameters:
