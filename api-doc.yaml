@@ -601,7 +601,11 @@ paths:
                   type: number
                 originCity:
                   type: string
+                originState:
+                  type: string
                 destinyCity:
+                  type: string
+                destinyState:
                   type: string
                 clientName:
                   type: string
@@ -625,7 +629,9 @@ paths:
                 - licensePlate
                 - price
                 - originCity
+                - originState
                 - destinyCity
+                - destinyState
                 - clientName
                 - loadingDate
                 - stopOver
@@ -1853,11 +1859,13 @@ paths:
                       format: date-time
                     endHour:
                       type: string
-                      format: date
+                      format: time
                     dayOfWeek:
                       type: number
                       minimum: 1
                       maximum: 7
+            examples: {}
+        description: ''
 components:
   schemas:
     Error:
@@ -2009,7 +2017,13 @@ components:
         originCity:
           type: string
           maxLength: 20
+        originState:
+          type: string
+          maxLength: 20
         destinyCity:
+          type: string
+          maxLength: 20
+        destinyState:
           type: string
           maxLength: 20
         price:
@@ -2035,7 +2049,9 @@ components:
         - driverName
         - clientName
         - originCity
+        - originState
         - destinyCity
+        - destinyState
         - price
         - status
         - stopOver
