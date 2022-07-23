@@ -13,6 +13,7 @@ tags:
   - name: Deleted
   - name: History
   - name: Notes
+  - name: Reports
   - name: Sectors
   - name: Tasks
   - name: Tickets
@@ -835,8 +836,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: patch-deleted-tickets-ticketId
-      tags:
-        - Tickets
       requestBody:
         content:
           application/json:
@@ -876,6 +875,8 @@ paths:
         name: ticketId
         in: path
         required: true
+      tags:
+        - Deleted
     get:
       summary: Get One Ticket
       operationId: get-deleted-tickets-ticketId
@@ -895,7 +896,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - Tickets
+        - Deleted
     delete:
       summary: Delete a Ticket.
       operationId: delete-deleted-tickets-ticketId
@@ -911,7 +912,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - Tickets
+        - Deleted
   '/completed-tickets/{ticketId}':
     parameters:
       - schema:
@@ -1658,87 +1659,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: delete-solicitations-solicitationId
-  /reports/time:
-    get:
-      summary: Get Time Report.
-      tags:
-        - Report
-        - Tickets
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  average:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        taskId:
-                          type: number
-                        timeInSeconds:
-                          type: number
-                          minimum: 0
-                      required:
-                        - taskId
-                  details:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        ticketId:
-                          type: number
-                        durations:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              taskId:
-                                type: number
-                              timeInSeconds:
-                                type: number
-                                minimum: 0
-                            required:
-                              - taskId
-                              - timeInSeconds
-                      required:
-                        - durations
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      operationId: get-reports-time
-      parameters:
-        - schema:
-            type: number
-          in: query
-          name: fromTaskId
-          required: true
-        - schema:
-            type: number
-          in: query
-          name: toTaskId
-          required: true
-        - schema:
-            type: string
-            format: date-time
-          in: query
-          name: fromDate
-          required: true
-        - schema:
-            type: string
-            format: date-time
-          in: query
-          name: toDate
-          required: true
-    parameters: []
   '/sectors/{sectorId}/solicitations':
     parameters:
       - schema:
@@ -1884,6 +1804,86 @@ paths:
                       maximum: 7
             examples: {}
         description: ''
+  /reports/time:
+    get:
+      summary: Get Time Report.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  average:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        taskId:
+                          type: number
+                        timeInSeconds:
+                          type: number
+                          minimum: 0
+                      required:
+                        - taskId
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ticketId:
+                          type: number
+                        durations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              taskId:
+                                type: number
+                              timeInSeconds:
+                                type: number
+                                minimum: 0
+                            required:
+                              - taskId
+                              - timeInSeconds
+                      required:
+                        - durations
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: get-reports-time
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: fromTaskId
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: toTaskId
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: fromDate
+          required: true
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: toDate
+          required: true
+      tags:
+        - Reports
+    parameters: []
   /reports/moment:
     post:
       summary: Manually create a Moment.
