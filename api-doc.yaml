@@ -548,14 +548,17 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  taskId:
-                    type: integer
-                  action:
-                    $ref: '#/components/schemas/ActionEnum'
+              type: object
+              properties:
+                permissions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      taskId:
+                        type: integer
+                      action:
+                        $ref: '#/components/schemas/ActionEnum'
             examples: {}
       description: ''
       responses:
@@ -2123,6 +2126,10 @@ components:
           type: integer
         action:
           $ref: '#/components/schemas/ActionEnum'
+      required:
+        - id
+        - taskId
+        - action
     ActionEnum:
       type: string
       title: ActionEnum
