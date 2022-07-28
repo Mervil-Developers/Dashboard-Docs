@@ -394,9 +394,25 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ticket'
+                type: object
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+                  numberOfTickets:
+                    type: integer
+                required:
+                  - tickets
+                  - numberOfTickets
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: get-tasks-taskId-tickets
   /sectors:
     post:
@@ -1447,75 +1463,6 @@ paths:
           $ref: '#/components/responses/400'
       tags:
         - Deleted
-  /atua/ordem-carregamento:
-    post:
-      summary: Atua - Ordem de Carregamento
-      operationId: post-atua
-      responses:
-        '201':
-          description: Created
-        '400':
-          $ref: '#/components/responses/400'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              x-examples:
-                example-1:
-                  licensePlate: string
-                  price: 0
-                  originCity: string
-                  destinyCity: string
-                  clientName: string
-                  status: string
-                  loadingDate: string
-                  stopOver: string
-                  product: string
-                  isTrocaNota: true
-                  driverName: string
-                  taskId: 0
-              properties:
-                licensePlate:
-                  type: string
-                  description: Placa do veículo
-                origin:
-                  $ref: '#/components/schemas/City'
-                destiny:
-                  $ref: '#/components/schemas/City'
-                clientName:
-                  type: string
-                  description: Nome do cliente
-                loadingDate:
-                  type: string
-                  format: date
-                  description: Data em que o carregamento acontecerá. Padrão ISO 8601
-                product:
-                  type: string
-                  description: Produto a ser transportado
-                driverName:
-                  type: string
-                  description: Nome do motorista
-                username:
-                  type: string
-                  description: Nome do usuário que emitiu a ordem de carregamento. Presente no PDF em "ASSINATURA DO USUÁRIO ......"
-              required:
-                - licensePlate
-                - origin
-                - destiny
-                - clientName
-                - loadingDate
-                - product
-                - driverName
-                - username
-      description: |-
-        Web hook chamado quando uma nova ordem de carregamento é emitida. 
-        Cria um novo cartão.
-      security: []
-      tags:
-        - Atua
-        - Tickets
-    parameters: []
   '/tickets/{ticketId}/tasks/next':
     parameters:
       - schema:
@@ -1928,6 +1875,116 @@ paths:
               required:
                 - ticketId
                 - action
+  /atua/ordem-carregamento:
+    post:
+      summary: Atua - Criação da Ordem de Carregamento
+      operationId: post-atua
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  licensePlate: string
+                  price: 0
+                  originCity: string
+                  destinyCity: string
+                  clientName: string
+                  status: string
+                  loadingDate: string
+                  stopOver: string
+                  product: string
+                  isTrocaNota: true
+                  driverName: string
+                  taskId: 0
+              properties:
+                licensePlate:
+                  type: string
+                  description: Placa do veículo
+                origin:
+                  $ref: '#/components/schemas/City'
+                destiny:
+                  $ref: '#/components/schemas/City'
+                clientName:
+                  type: string
+                  description: Nome do cliente
+                loadingDate:
+                  type: string
+                  format: date
+                  description: Data em que o carregamento acontecerá. Padrão ISO 8601
+                product:
+                  type: string
+                  description: Produto a ser transportado
+                driverName:
+                  type: string
+                  description: Nome do motorista
+                username:
+                  type: string
+                  description: Nome do usuário que emitiu a ordem de carregamento. Presente no PDF em "ASSINATURA DO USUÁRIO ......"
+              required:
+                - licensePlate
+                - origin
+                - destiny
+                - clientName
+                - loadingDate
+                - product
+                - driverName
+                - username
+      description: |-
+        Web hook chamado quando uma nova ordem de carregamento é emitida. 
+        Cria um novo cartão.
+      security: []
+      tags:
+        - Atua
+        - Tickets
+    parameters: []
+  '/atua/ordem-carregamento/{ordemCarregamentoId}':
+    parameters:
+      - schema:
+          type: string
+        name: ordemCarregamentoId
+        in: path
+        required: true
+    patch:
+      summary: Atua - Atualização da Ordem de Carregamento
+      operationId: patch-atua-ordem-carregamento-ordemCarregamentoId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  licensePlate:
+                    type: string
+                  origin:
+                    $ref: '#/components/schemas/City'
+                  destiny:
+                    $ref: '#/components/schemas/City'
+                  clientName:
+                    type: string
+                  loadingDate:
+                    type: string
+                    format: date-time
+                  product:
+                    type: string
+                  driverName:
+                    type: string
+                  username:
+                    type: string
+                required:
+                  - username
+      description: |
+        Web hook chamado quando uma ordem de carregamento existente é atualizada. 
+      tags:
+        - Atua
 components:
   schemas:
     Error:
@@ -2108,6 +2165,8 @@ components:
           type: boolean
         isRiskManaged:
           type: boolean
+        position:
+          type: integer
       required:
         - id
         - licensePlate
