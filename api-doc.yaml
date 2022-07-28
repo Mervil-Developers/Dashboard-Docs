@@ -70,6 +70,8 @@ paths:
                   type: string
                 cellphone:
                   type: string
+                password:
+                  type: string
                 sectorId:
                   type: integer
                 roleName:
@@ -78,6 +80,7 @@ paths:
                 - username
                 - fullName
                 - cellphone
+                - password
             examples: {}
       tags:
         - Users
@@ -205,6 +208,8 @@ paths:
                   type: string
                 cellphone:
                   type: string
+                password:
+                  type: string
                 sectorId:
                   type: integer
                 roleName:
@@ -280,9 +285,12 @@ paths:
                   type: string
                 sequence:
                   type: integer
+                isTimeManaged:
+                  type: boolean
               required:
                 - title
                 - sequence
+                - isTimeManaged
     get:
       summary: Get Many Tasks
       tags:
@@ -1979,10 +1987,13 @@ components:
           type: integer
           minimum: 0
           maximum: 99
+        isTimeManaged:
+          type: boolean
       required:
         - id
         - title
         - sequence
+        - isTimeManaged
     Sector:
       title: Sector
       x-stoplight:
