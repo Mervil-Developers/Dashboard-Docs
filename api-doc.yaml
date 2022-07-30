@@ -1906,27 +1906,32 @@ paths:
               properties:
                 licensePlate:
                   type: string
-                  description: Placa do veículo
+                  description: Placa do veículo.
                 origin:
                   $ref: '#/components/schemas/City'
                 destiny:
                   $ref: '#/components/schemas/City'
                 clientName:
                   type: string
-                  description: Nome do cliente
+                  description: Refere-se ao campo Remetente na ordem de carregamento.
                 loadingDate:
                   type: string
                   format: date
-                  description: Data em que o carregamento acontecerá. Padrão ISO 8601
+                  description: Data em que o carregamento acontecerá. Padrão ISO 8601.
                 product:
                   type: string
-                  description: Produto a ser transportado
+                  description: Produto a ser transportado.
                 driverName:
                   type: string
-                  description: Nome do motorista
+                  description: Nome do motorista.
                 username:
                   type: string
                   description: Nome do usuário que emitiu a ordem de carregamento. Presente no PDF em "ASSINATURA DO USUÁRIO ......"
+                cdOrdem:
+                  type:
+                    - number
+                    - string
+                  description: Código único da ordem de carregamento.
               required:
                 - licensePlate
                 - origin
@@ -1936,6 +1941,8 @@ paths:
                 - product
                 - driverName
                 - username
+                - cdOrdem
+            examples: {}
       description: |-
         Web hook chamado quando uma nova ordem de carregamento é emitida. 
         Cria um novo cartão.
@@ -1944,11 +1951,11 @@ paths:
         - Atua
         - Tickets
     parameters: []
-  '/atua/ordem-carregamento/{ordemCarregamentoId}':
+  '/atua/ordem-carregamento/{cdOrdem}':
     parameters:
       - schema:
           type: string
-        name: ordemCarregamentoId
+        name: cdOrdem
         in: path
         required: true
     patch:
@@ -1957,34 +1964,53 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  licensePlate:
-                    type: string
-                  origin:
-                    $ref: '#/components/schemas/City'
-                  destiny:
-                    $ref: '#/components/schemas/City'
-                  clientName:
-                    type: string
-                  loadingDate:
-                    type: string
-                    format: date-time
-                  product:
-                    type: string
-                  driverName:
-                    type: string
-                  username:
-                    type: string
-                required:
-                  - username
       description: |
         Web hook chamado quando uma ordem de carregamento existente é atualizada. 
       tags:
         - Atua
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  licensePlate: string
+                  origin:
+                    city: string
+                    state: string
+                  destiny:
+                    city: string
+                    state: string
+                  clientName: string
+                  loadingDate: '2019-08-24'
+                  product: string
+                  driverName: string
+                  username: string
+                  cdOrdem: 0
+              properties:
+                licensePlate:
+                  type: string
+                  description: Placa do veículo.
+                origin:
+                  $ref: '#/components/schemas/City'
+                destiny:
+                  $ref: '#/components/schemas/City'
+                clientName:
+                  type: string
+                  description: 'Refere-se ao campo Remetente na ordem de carregamento. '
+                loadingDate:
+                  type: string
+                  description: Data em que o carregamento acontecerá. Padrão ISO 8601.Data em que o carregamento acontecerá. Padrão ISO 8601.
+                product:
+                  type: string
+                  description: Produto a ser transportado.
+                driverName:
+                  type: string
+                  description: Nome do motorista.
+                username:
+                  type: string
+                  description: Nome do usuário que realizou a atualização da ordem de carregamento.
 components:
   schemas:
     Error:
