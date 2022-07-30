@@ -1941,7 +1941,6 @@ paths:
                 - product
                 - driverName
                 - username
-                - cdOrdem
             examples: {}
       description: |-
         Web hook chamado quando uma nova ordem de carregamento é emitida. 
