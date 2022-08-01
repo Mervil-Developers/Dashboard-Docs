@@ -16,6 +16,7 @@ tags:
   - name: Reports
   - name: Sectors
   - name: Tasks
+  - name: Teams
   - name: Tickets
   - name: Users
 paths:
@@ -73,6 +74,8 @@ paths:
                 password:
                   type: string
                 sectorId:
+                  type: integer
+                teamId:
                   type: integer
                 roleName:
                   $ref: '#/components/schemas/RoleEnum'
@@ -2010,6 +2013,108 @@ paths:
                 username:
                   type: string
                   description: Nome do usuário que realizou a atualização da ordem de carregamento.
+  /teams:
+    get:
+      summary: Get many Teams.
+      tags:
+        - Teams
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: get-teams
+    post:
+      summary: Create one Team.
+      tags:
+        - Teams
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+      operationId: post-teams
+  '/teams/{teamId}':
+    parameters:
+      - schema:
+          type: string
+        name: teamId
+        in: path
+        required: true
+    get:
+      summary: Get one Team.
+      tags:
+        - Teams
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: get-teams-teamId
+    patch:
+      summary: Update one Team.
+      tags:
+        - Teams
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: patch-teams-teamId
+    delete:
+      summary: Delete one Team.
+      tags:
+        - Teams
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: delete-teams-teamId
 components:
   schemas:
     Error:
@@ -2046,6 +2151,8 @@ components:
           $ref: '#/components/schemas/Sector'
         roleName:
           $ref: '#/components/schemas/RoleEnum'
+        team:
+          $ref: '#/components/schemas/Team'
       required:
         - id
         - username
@@ -2329,6 +2436,19 @@ components:
         - APPROVED
         - IN_PROGRESS
         - DECLINED
+    Team:
+      title: Team
+      x-stoplight:
+        id: 9ibykh1hlstik
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
   securitySchemes:
     JWT:
       type: http
