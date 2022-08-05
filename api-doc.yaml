@@ -2115,6 +2115,393 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       operationId: delete-teams-teamId
+  /drivers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-drivers
+    post:
+      summary: Create a Driver.
+      operationId: post-drivers
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  images:
+                    - 1
+                    - 2
+                  resister:
+                    driver:
+                      name: string
+                      cnh: string
+                      cpf: string
+                      proofOdAddress: {}
+                      phoneNumber: string
+                    truckTractor:
+                      crlv: {}
+                      owner:
+                        cnh:
+                          - {}
+                        addressProof:
+                          - {}
+                        phoneNumber: string
+                    truckTrailer:
+                      - crlv: {}
+                        owner:
+                          cnh:
+                            - {}
+                          addressProof:
+                            - {}
+                          phoneNumber: string
+              properties:
+                images:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Image'
+                register:
+                  type: object
+                  required:
+                    - driver
+                  properties:
+                    driver:
+                      type: object
+                      required:
+                        - name
+                        - cpf
+                        - phoneNumber
+                        - cnh
+                        - proofOfAddress
+                      properties:
+                        name:
+                          type: string
+                        cpf:
+                          type: string
+                        phoneNumber:
+                          type: string
+                        cnh:
+                          type: array
+                          items:
+                            type: number
+                        proofOfAddress:
+                          type: array
+                          items:
+                            type: number
+                    truckTractor:
+                      type: object
+                      properties:
+                        crlv:
+                          type: array
+                          items:
+                            type: number
+                        owner:
+                          type:
+                            - object
+                            - 'null'
+                          properties:
+                            cnh:
+                              type: array
+                              items:
+                                type: number
+                            addressProof:
+                              type: array
+                              items:
+                                type: number
+                            phoneNumber:
+                              type: string
+                      required:
+                        - crlv
+                    truckTrailer:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          crlv:
+                            type: array
+                            items:
+                              type: number
+                          owner:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              cnh:
+                                type: array
+                                items:
+                                  type: number
+                              addressProof:
+                                type: array
+                                items:
+                                  type: number
+                              phoneNumber:
+                                type: string
+                            required:
+                              - cnh
+                              - addressProof
+                              - phoneNumber
+                        required:
+                          - crlv
+                    bankAccount:
+                      type: object
+                      properties:
+                        bankName:
+                          type: string
+                        agencyNumber:
+                          type: string
+                        accountNumber:
+                          type: string
+                        pixNumber:
+                          type: string
+                        fullName:
+                          type: string
+                        cpf:
+                          type: string
+                      required:
+                        - bankName
+                        - agencyNumber
+                        - accountNumber
+                        - pixNumber
+                        - fullName
+                        - cpf
+                    lastManifest:
+                      type: string
+                    pictures:
+                      type: array
+                      items:
+                        type: number
+                    references:
+                      type: object
+                      properties:
+                        personalContacts:
+                          type: array
+                          minItems: 2
+                          items:
+                            type: object
+                        companyContacts:
+                          type: array
+                          items:
+                            type: object
+                            minProperties: 3
+                        experienceTime:
+                          type: string
+                        observation:
+                          type: string
+                      required:
+                        - personalContacts
+                        - companyContacts
+                        - experienceTime
+                        - observation
+              required:
+                - images
+                - register
+            examples: {}
+        description: ''
+  '/drivers/{driverId}':
+    parameters:
+      - schema:
+          type: string
+        name: driverId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-drivers-driverId
+    patch:
+      summary: Update a Driver.
+      operationId: patch-drivers-driverId
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  images:
+                    - {}
+                  register:
+                    driver:
+                      name: string
+                      cpf: string
+                      phoneNumber: string
+                      cnh:
+                        - 0
+                      proofOfAddress:
+                        - 0
+                    truckTractor:
+                      crlv:
+                        - 0
+                      owner:
+                        cnh:
+                          - 0
+                        addressProof:
+                          - 0
+                        phoneNumber: string
+                    truckTrailer:
+                      - crlv:
+                          - 0
+                        owner:
+                          cnh:
+                            - 0
+                          addressProof:
+                            - 0
+                          phoneNumber: string
+                    bankAccount:
+                      bankName: string
+                      agencyNumber: string
+                      accountNumber: string
+                      pixNumber: string
+                      fullName: string
+                      cpf: string
+                    lastManifest: string
+                    pictures:
+                      - 0
+                    references:
+                      personalContacts:
+                        - {}
+                        - {}
+                      companyContacts:
+                        - {}
+                      experienceTime: string
+                      observation: string
+              properties:
+                images:
+                  type: array
+                  items:
+                    type: object
+                register:
+                  type: object
+                  properties:
+                    driver:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        cpf:
+                          type: string
+                        phoneNumber:
+                          type: string
+                        cnh:
+                          type: array
+                          items:
+                            type: integer
+                        proofOfAddress:
+                          type: array
+                          items:
+                            type: integer
+                      required:
+                        - name
+                        - cpf
+                        - phoneNumber
+                        - cnh
+                        - proofOfAddress
+                    truckTractor:
+                      type: object
+                      properties:
+                        crlv:
+                          type: array
+                          items:
+                            type: integer
+                        owner:
+                          type:
+                            - object
+                            - 'null'
+                          properties:
+                            cnh:
+                              type: array
+                              items:
+                                type: integer
+                            addressProof:
+                              type: array
+                              items:
+                                type: integer
+                            phoneNumber:
+                              type: string
+                      required:
+                        - crlv
+                    truckTrailer:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          crlv:
+                            type: array
+                            items:
+                              type: integer
+                          owner:
+                            type:
+                              - object
+                              - 'null'
+                            required:
+                              - cnh
+                              - addressProof
+                              - phoneNumber
+                            properties:
+                              cnh:
+                                type: array
+                                items:
+                                  type: integer
+                              addressProof:
+                                type: array
+                                items:
+                                  type: integer
+                              phoneNumber:
+                                type: string
+                        required:
+                          - crlv
+                    bankAccount:
+                      type: object
+                      properties:
+                        bankName:
+                          type: string
+                        agencyNumber:
+                          type: string
+                        accountNumber:
+                          type: string
+                        pixNumber:
+                          type: string
+                        fullName:
+                          type: string
+                        cpf:
+                          type: string
+                      required:
+                        - bankName
+                        - agencyNumber
+                        - accountNumber
+                        - pixNumber
+                        - fullName
+                        - cpf
+                    lastManifest:
+                      type: string
+                    pictures:
+                      type: array
+                      items:
+                        type: integer
+                    references:
+                      type: object
+                      properties:
+                        personalContacts:
+                          type: array
+                          items:
+                            type: string
+                        companyContacts:
+                          type: array
+                          items:
+                            type: string
+                        experienceTime:
+                          type: string
+                        observation:
+                          type: string
 components:
   schemas:
     Error:
@@ -2449,6 +2836,70 @@ components:
       required:
         - id
         - name
+    Image:
+      title: Image
+      x-stoplight:
+        id: mm6ax20pj8rry
+      type: object
+    Driver:
+      type: object
+      x-examples:
+        example-1:
+          cnh:
+            - {}
+          addressProof:
+            - {}
+          phoneNumber: string
+      properties:
+        name:
+          type: string
+        cpf:
+          type: string
+        cnh:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        addressProof:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        phoneNumber:
+          type: string
+      required:
+        - name
+        - cpf
+        - cnh
+        - addressProof
+        - phoneNumber
+    NaturalPerson:
+      type: object
+      x-examples:
+        example-1:
+          cnh: {}
+          addressProof: {}
+          phoneNumber: string
+      properties:
+        cnh:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        addressProof:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        phoneNumber:
+          type: string
+      required:
+        - cnh
+        - addressProof
+        - phoneNumber
+      title: NaturalPerson
+      examples:
+        - cnh:
+            - {}
+          addressProof:
+            - {}
+          phoneNumber: string
   securitySchemes:
     JWT:
       type: http
