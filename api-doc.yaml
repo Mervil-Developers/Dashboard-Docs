@@ -2271,6 +2271,7 @@ paths:
                         - cpf
                     lastManifest:
                       type: string
+                      format: date
                     pictures:
                       type: array
                       items:
@@ -2282,12 +2283,11 @@ paths:
                           type: array
                           minItems: 2
                           items:
-                            type: object
+                            type: string
                         companyContacts:
                           type: array
                           items:
-                            type: object
-                            minProperties: 3
+                            type: string
                         experienceTime:
                           type: string
                         observation:
