@@ -11,6 +11,7 @@ tags:
   - name: Atua
   - name: Completed
   - name: Deleted
+  - name: Drivers
   - name: History
   - name: Notes
   - name: Reports
@@ -841,6 +842,16 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+              required:
+                - reason
   '/deleted-tickets/{ticketId}':
     parameters:
       - schema:
@@ -2118,7 +2129,8 @@ paths:
   /drivers:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Drivers
       responses: {}
       operationId: get-drivers
     post:
@@ -2300,8 +2312,59 @@ paths:
               required:
                 - images
                 - register
-            examples: {}
+            examples:
+              example-1:
+                value:
+                  images:
+                    - {}
+                  register:
+                    driver:
+                      name: string
+                      cpf: string
+                      phoneNumber: string
+                      cnh:
+                        - 0
+                      proofOfAddress:
+                        - 0
+                    truckTractor:
+                      crlv:
+                        - 0
+                      owner:
+                        cnh:
+                          - 0
+                        addressProof:
+                          - 0
+                        phoneNumber: string
+                    truckTrailer:
+                      - crlv:
+                          - 0
+                        owner:
+                          cnh:
+                            - 0
+                          addressProof:
+                            - 0
+                          phoneNumber: string
+                    bankAccount:
+                      bankName: string
+                      agencyNumber: string
+                      accountNumber: string
+                      pixNumber: string
+                      fullName: string
+                      cpf: string
+                    lastManifest: '2019-08-24'
+                    pictures:
+                      - 0
+                    references:
+                      personalContacts:
+                        - string
+                        - string
+                      companyContacts:
+                        - string
+                      experienceTime: string
+                      observation: string
         description: ''
+      tags:
+        - Drivers
   '/drivers/{driverId}':
     parameters:
       - schema:
@@ -2311,7 +2374,8 @@ paths:
         required: true
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - Drivers
       responses: {}
       operationId: get-drivers-driverId
     patch:
@@ -2502,6 +2566,8 @@ paths:
                           type: string
                         observation:
                           type: string
+      tags:
+        - Drivers
 components:
   schemas:
     Error:
@@ -2686,6 +2752,8 @@ components:
           type: boolean
         position:
           type: integer
+        stopped:
+          type: boolean
       required:
         - id
         - licensePlate
@@ -2703,6 +2771,7 @@ components:
         - loadingDate
         - isPriotity
         - isRiskManaged
+        - stopped
     TaskPermission:
       title: TaskPermission
       x-stoplight:
