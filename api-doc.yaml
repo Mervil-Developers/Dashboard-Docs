@@ -2128,10 +2128,18 @@ paths:
       operationId: delete-teams-teamId
   /drivers:
     get:
-      summary: Your GET endpoint
+      summary: Get many Drivers.
       tags:
         - Drivers
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
       operationId: get-drivers
     post:
       summary: Create a Driver.
@@ -2309,6 +2317,10 @@ paths:
                         - companyContacts
                         - experienceTime
                         - observation
+                    antt:
+                      type: array
+                      items:
+                        type: number
               required:
                 - images
                 - register
@@ -2365,15 +2377,15 @@ paths:
         description: ''
       tags:
         - Drivers
-  '/drivers/{driverId}':
+  '/drivers/{driverCpf}':
     parameters:
       - schema:
           type: string
-        name: driverId
+        name: driverCpf
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get one Driver.
       tags:
         - Drivers
       responses: {}
@@ -2506,10 +2518,6 @@ paths:
                             type:
                               - object
                               - 'null'
-                            required:
-                              - cnh
-                              - addressProof
-                              - phoneNumber
                             properties:
                               cnh:
                                 type: array
@@ -2521,6 +2529,10 @@ paths:
                                   type: integer
                               phoneNumber:
                                 type: string
+                            required:
+                              - cnh
+                              - addressProof
+                              - phoneNumber
                         required:
                           - crlv
                     bankAccount:
@@ -2566,6 +2578,10 @@ paths:
                           type: string
                         observation:
                           type: string
+                    antt:
+                      type: array
+                      items:
+                        type: integer
       tags:
         - Drivers
 components:
