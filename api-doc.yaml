@@ -2318,9 +2318,25 @@ paths:
                         - experienceTime
                         - observation
                     antt:
-                      type: array
-                      items:
-                        type: number
+                      type: object
+                      properties:
+                        rntrc:
+                          type: array
+                          items:
+                            type: integer
+                        cnh:
+                          type: array
+                          items:
+                            type: integer
+                        addressProof:
+                          type: array
+                          items:
+                            type: integer
+                        phoneNumber:
+                          type: string
+                      required:
+                        - rntrc
+                        - phoneNumber
               required:
                 - images
                 - register
@@ -2388,7 +2404,13 @@ paths:
       summary: Get one Driver.
       tags:
         - Drivers
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
       operationId: get-drivers-driverId
     patch:
       summary: Update a Driver.
@@ -2579,9 +2601,25 @@ paths:
                         observation:
                           type: string
                     antt:
-                      type: array
-                      items:
-                        type: integer
+                      type: object
+                      properties:
+                        rntrc:
+                          type: array
+                          items:
+                            type: integer
+                        cnh:
+                          type: array
+                          items:
+                            type: integer
+                        addressProof:
+                          type: array
+                          items:
+                            type: string
+                        phoneNumber:
+                          type: string
+                      required:
+                        - rntrc
+                        - phoneNumber
       tags:
         - Drivers
 components:
@@ -2944,47 +2982,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-        addressProof:
+        proofOfAddress:
           type: array
           items:
             $ref: '#/components/schemas/Image'
         phoneNumber:
           type: string
+        pictures:
+          type: array
+          items:
+            type: string
+        antt:
+          type: array
+          items:
+            type: string
+        lastManifest:
+          type: string
+          format: date-time
       required:
         - name
         - cpf
         - cnh
-        - addressProof
+        - proofOfAddress
         - phoneNumber
-    NaturalPerson:
-      type: object
-      x-examples:
-        example-1:
-          cnh: {}
-          addressProof: {}
-          phoneNumber: string
-      properties:
-        cnh:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        addressProof:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        phoneNumber:
-          type: string
-      required:
-        - cnh
-        - addressProof
-        - phoneNumber
-      title: NaturalPerson
-      examples:
-        - cnh:
-            - {}
-          addressProof:
-            - {}
-          phoneNumber: string
   securitySchemes:
     JWT:
       type: http
