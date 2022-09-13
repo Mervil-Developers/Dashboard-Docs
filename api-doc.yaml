@@ -2144,8 +2144,28 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Driver'
+                  type: object
+                  properties:
+                    cpf:
+                      type: string
+                    name:
+                      type: string
+                    phoneNumber:
+                      type: string
+                  required:
+                    - cpf
+                    - name
+                    - phoneNumber
       operationId: get-drivers
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: cpf
+        - schema:
+            type: string
+          in: query
+          name: name
     post:
       summary: Create a Driver.
       operationId: post-drivers
