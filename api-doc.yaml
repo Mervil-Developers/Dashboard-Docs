@@ -74,8 +74,10 @@ paths:
                   type: string
                 password:
                   type: string
-                sectorId:
-                  type: integer
+                sectorIds:
+                  type: array
+                  items:
+                    type: integer
                 teamId:
                   type: integer
                 roleName:
@@ -127,6 +129,7 @@ paths:
                     properties:
                       jwt:
                         type: string
+              examples: {}
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -214,8 +217,10 @@ paths:
                   type: string
                 password:
                   type: string
-                sectorId:
-                  type: integer
+                sectorIds:
+                  type: array
+                  items:
+                    type: integer
                 roleName:
                   $ref: '#/components/schemas/RoleEnum'
     delete:
@@ -2974,37 +2979,167 @@ components:
             - {}
           phoneNumber: string
       properties:
+        cpf:
+          type: string
         name:
           type: string
-        cpf:
+        phoneNumber:
           type: string
         cnh:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-        proofOfAddress:
+        addressProof:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-        phoneNumber:
-          type: string
         pictures:
-          type: array
+          type:
+            - array
+            - 'null'
           items:
             type: string
         antt:
+          type:
+            - object
+            - 'null'
+          required:
+            - rntrc
+            - cnh
+            - addressProof
+            - phoneNumber
+          properties:
+            rntrc:
+              type: array
+              items:
+                type: string
+            cnh:
+              type:
+                - array
+                - 'null'
+              items:
+                type: string
+            addressProof:
+              type:
+                - array
+                - 'null'
+              items:
+                type: string
+            phoneNumber:
+              type: string
+        lastManifest:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        truckTractor:
+          oneOf:
+            - $ref: '#/components/schemas/TruckComponent'
+            - properties: {}
+              type: 'null'
+        truckTrailers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TruckComponent'
+        bankAccount:
+          type:
+            - object
+            - 'null'
+          required:
+            - id
+            - fullName
+            - cpf
+            - bankName
+            - agencyNumber
+            - accountNumber
+            - pixNumber
+          properties:
+            id:
+              type: number
+            fullName:
+              type: string
+            cpf:
+              type: string
+            bankName:
+              type: string
+            agencyNumber:
+              type: string
+            accountNumber:
+              type: string
+            pixNumber:
+              type: string
+        references:
+          type:
+            - object
+            - 'null'
+          required:
+            - personalContacts
+            - companyContacts
+            - experienceTime
+            - observation
+          properties:
+            personalContacts:
+              type: array
+              items:
+                type: string
+            companyContacts:
+              type: array
+              items:
+                type: string
+            experienceTime:
+              type: string
+            observation:
+              type: string
+      required:
+        - cpf
+        - name
+        - phoneNumber
+        - cnh
+        - addressProof
+        - pictures
+        - antt
+        - lastManifest
+        - truckTractor
+        - truckTrailers
+        - bankAccount
+        - references
+    TruckComponent:
+      title: TruckComponent
+      x-stoplight:
+        id: 68kmefjpzv4tu
+      type: object
+      properties:
+        id:
+          type: number
+        crlv:
           type: array
           items:
             type: string
-        lastManifest:
-          type: string
-          format: date-time
+        ownerCnh:
+          type:
+            - array
+            - 'null'
+          items:
+            type: string
+        ownerAddressProof:
+          type:
+            - array
+            - 'null'
+          items:
+            type: string
+        ownerPhoneNumber:
+          type:
+            - 'null'
+            - string
+        isDriverOwner:
+          type: boolean
       required:
-        - name
-        - cpf
-        - cnh
-        - proofOfAddress
-        - phoneNumber
+        - id
+        - crlv
+        - ownerCnh
+        - ownerAddressProof
+        - ownerPhoneNumber
+        - isDriverOwner
   securitySchemes:
     JWT:
       type: http
