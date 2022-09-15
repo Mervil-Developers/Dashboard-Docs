@@ -2260,6 +2260,8 @@ paths:
                                 type: number
                             phoneNumber:
                               type: string
+                        antt:
+                          type: integer
                       required:
                         - crlv
                     truckTrailer:
@@ -2290,6 +2292,8 @@ paths:
                               - cnh
                               - addressProof
                               - phoneNumber
+                          ant:
+                            type: integer
                         required:
                           - crlv
                     bankAccount:
@@ -2315,8 +2319,10 @@ paths:
                         - fullName
                         - cpf
                     lastManifest:
-                      type: string
                       format: date
+                      type: array
+                      items:
+                        type: string
                     pictures:
                       type: array
                       items:
@@ -2343,25 +2349,27 @@ paths:
                         - experienceTime
                         - observation
                     antt:
-                      type: object
-                      properties:
-                        rntrc:
-                          type: array
-                          items:
-                            type: integer
-                        cnh:
-                          type: array
-                          items:
-                            type: integer
-                        addressProof:
-                          type: array
-                          items:
-                            type: integer
-                        phoneNumber:
-                          type: string
-                      required:
-                        - rntrc
-                        - phoneNumber
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          rntrc:
+                            type: array
+                            items:
+                              type: string
+                          cnh:
+                            type: array
+                            items:
+                              type: string
+                          addressProof:
+                            type: array
+                            items:
+                              type: string
+                          phoneNumber:
+                            type: string
+                        required:
+                          - rntrc
+                          - phoneNumber
               required:
                 - images
                 - register
@@ -2550,6 +2558,8 @@ paths:
                                 type: integer
                             phoneNumber:
                               type: string
+                        antt:
+                          type: integer
                       required:
                         - crlv
                     truckTrailer:
@@ -2580,6 +2590,8 @@ paths:
                               - cnh
                               - addressProof
                               - phoneNumber
+                          antt:
+                            type: integer
                         required:
                           - crlv
                     bankAccount:
@@ -2605,7 +2617,9 @@ paths:
                         - fullName
                         - cpf
                     lastManifest:
-                      type: string
+                      type: array
+                      items:
+                        type: string
                     pictures:
                       type: array
                       items:
@@ -2626,27 +2640,41 @@ paths:
                         observation:
                           type: string
                     antt:
-                      type: object
-                      properties:
-                        rntrc:
-                          type: array
-                          items:
-                            type: integer
-                        cnh:
-                          type: array
-                          items:
-                            type: integer
-                        addressProof:
-                          type: array
-                          items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          rntrc:
+                            type: array
+                            items:
+                              type: string
+                          cnh:
+                            type: array
+                            items:
+                              type: string
+                          addressProof:
+                            type: array
+                            items:
+                              type: string
+                          phoneNumber:
                             type: string
-                        phoneNumber:
-                          type: string
-                      required:
-                        - rntrc
-                        - phoneNumber
+                        required:
+                          - rntrc
+                          - phoneNumber
       tags:
         - Drivers
+  '/drivers/images/{imageName}':
+    parameters:
+      - schema:
+          type: string
+        name: imageName
+        in: path
+        required: true
+    get:
+      summary: Get driver related Image.
+      tags: []
+      responses: {}
+      operationId: get-drivers-images-imageId
 components:
   schemas:
     Error:
