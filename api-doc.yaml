@@ -3026,6 +3026,7 @@ components:
           addressProof:
             - {}
           phoneNumber: string
+      examples: []
       properties:
         cpf:
           type: string
@@ -3047,44 +3048,14 @@ components:
             - 'null'
           items:
             type: string
-        antt:
-          type:
-            - object
-            - 'null'
-          required:
-            - rntrc
-            - cnh
-            - addressProof
-            - phoneNumber
-          properties:
-            rntrc:
-              type: array
-              items:
-                type: string
-            cnh:
-              type:
-                - array
-                - 'null'
-              items:
-                type: string
-            addressProof:
-              type:
-                - array
-                - 'null'
-              items:
-                type: string
-            phoneNumber:
-              type: string
         lastManifest:
           type:
             - string
             - 'null'
-          format: date-time
         truckTractor:
           oneOf:
             - $ref: '#/components/schemas/TruckComponent'
-            - properties: {}
-              type: 'null'
+            - type: 'null'
         truckTrailers:
           type: array
           items:
@@ -3145,7 +3116,6 @@ components:
         - cnh
         - addressProof
         - pictures
-        - antt
         - lastManifest
         - truckTractor
         - truckTrailers
@@ -3181,6 +3151,8 @@ components:
             - string
         isDriverOwner:
           type: boolean
+        antt:
+          $ref: '#/components/schemas/Antt'
       required:
         - id
         - crlv
@@ -3188,6 +3160,36 @@ components:
         - ownerAddressProof
         - ownerPhoneNumber
         - isDriverOwner
+    Antt:
+      type: object
+      x-examples:
+        example-1:
+          rntrc:
+            - string
+          cnh:
+            - string
+          addressProof:
+            - string
+          phoneNumber: string
+      properties:
+        rntrc:
+          type: array
+          items:
+            type: string
+        cnh:
+          type: array
+          items:
+            type: string
+        addressProof:
+          type: array
+          items:
+            type: string
+        phoneNumber:
+          type: string
+      required:
+        - rntrc
+        - phoneNumber
+      title: Antt
   securitySchemes:
     JWT:
       type: http
