@@ -3016,7 +3016,7 @@ components:
       title: Image
       x-stoplight:
         id: mm6ax20pj8rry
-      type: object
+      type: string
     Driver:
       type: object
       x-examples:
