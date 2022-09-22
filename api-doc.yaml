@@ -2305,6 +2305,431 @@ paths:
                   - bankAccount
               examples: {}
       operationId: get-driver-workspaces-workspaceId-result
+    put:
+      summary: Update Driver Result.
+      operationId: put-driver-workspaces-workspaceId-result
+      responses: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  driver:
+                    id: 0
+                    phoneNumber: string
+                    cnh:
+                      - string
+                    addressProof:
+                      - string
+                    cpf: string
+                    name: string
+                  pictures:
+                    - string
+                  lastManifest:
+                    - string
+                  references:
+                    personalContacts:
+                      - string
+                    companyContacts:
+                      - string
+                    experienceTime: string
+                    observation: string
+                  bankAccount:
+                    fullName: string
+                    cpf: string
+                    bankName: string
+                    agencyNumber: string
+                    accountNumber: string
+                    pixNumber: string
+                  truckTractor:
+                    id: 0
+                    licensePlate: string
+                    crlv:
+                      - string
+                    owner:
+                      id: 0
+                      phoneNumber: string
+                      cnh:
+                        - string
+                      addressProof:
+                        - string
+                    antt:
+                      id: 0
+                      rntrc:
+                        - string
+                      phoneNumber: string
+                      cnh:
+                        - string
+                      addressProof:
+                        - string
+                  truckTrailers:
+                    - id: 0
+                      licensePlate: string
+                      crlv:
+                        - string
+                      owner:
+                        id: 0
+                        phoneNumber: string
+                        cnh:
+                          - string
+                        addressProof:
+                          - string
+                      antt:
+                        id: 0
+                        rntrc:
+                          - string
+                        phoneNumber: string
+                        cnh:
+                          - string
+                        addressProof:
+                          - string
+              properties:
+                driver:
+                  type: number
+                pictures:
+                  type: array
+                  items:
+                    type: string
+                lastManifest:
+                  type: array
+                  items:
+                    type: string
+                references:
+                  type: object
+                  properties:
+                    personalContacts:
+                      type: array
+                      items:
+                        type: string
+                    companyContacts:
+                      type: array
+                      items:
+                        type: string
+                    experienceTime:
+                      type: string
+                    observation:
+                      type: string
+                bankAccount:
+                  type: object
+                  properties:
+                    fullName:
+                      type: string
+                    cpf:
+                      type: string
+                    bankName:
+                      type: string
+                    agencyNumber:
+                      type: string
+                    accountNumber:
+                      type: string
+                    pixNumber:
+                      type: string
+                truckTractor:
+                  type: object
+                  required:
+                    - licensePlate
+                    - crlv
+                    - owner
+                    - antt
+                  properties:
+                    licensePlate:
+                      type: string
+                    crlv:
+                      type: array
+                      items:
+                        type: string
+                    owner:
+                      type: number
+                    antt:
+                      type: number
+                truckTrailers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      licensePlate:
+                        type: string
+                      crlv:
+                        type: array
+                        items:
+                          type: string
+                      owner:
+                        type: number
+                      antt:
+                        type: number
+                    required:
+                      - crlv
+                      - owner
+                      - antt
+              required:
+                - driver
+                - pictures
+                - lastManifest
+                - references
+                - bankAccount
+                - truckTractor
+                - truckTrailers
+            examples: {}
+  '/driver-worspaces/{workspaceId}/images':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+    post:
+      summary: Upload images to Workspace.
+      operationId: post-driver-worspaces-workspaceId-images
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                images:
+                  type: array
+                  items: {}
+        description: ''
+  '/driver-worspaces/{workspaceId}/images/{imageName}':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: imageName
+        in: path
+        required: true
+    get:
+      summary: Stream file
+      tags: []
+      responses: {}
+      operationId: get-driver-worspaces-workspaceId-images-imageName
+    delete:
+      summary: Remove file from Workspace.
+      operationId: delete-driver-worspaces-workspaceId-images-imageName
+      responses:
+        '204':
+          description: No Content
+  '/driver-worspaces/{workspaceId}/antts':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+    post:
+      summary: Add a ANTT to Workspace.
+      operationId: post-driver-worspaces-workspaceId-antts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rntrc:
+                  type: array
+                  items:
+                    type: string
+                owner:
+                  type:
+                    - object
+                    - number
+                  required:
+                    - phoneNumber
+                  properties:
+                    phoneNumber:
+                      type: string
+                    cnh:
+                      type: array
+                      items:
+                        type: string
+                    addressProof:
+                      type: array
+                      items:
+                        type: string
+              required:
+                - rntrc
+                - owner
+            examples: {}
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Antt'
+  '/driver-worspaces/{workspaceId}/antts/{anttId}':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: anttId
+        in: path
+        required: true
+    put:
+      summary: Update a ANNT.
+      operationId: put-driver-worspaces-workspaceId-antts-anttId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Antt'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  rntrc:
+                    - string
+                  owner:
+                    phoneNumber: string
+                    cnh:
+                      - string
+                    addressProof:
+                      - string
+              properties:
+                rntrc:
+                  type: array
+                  items:
+                    type: string
+                owner:
+                  type:
+                    - object
+                    - number
+                  required:
+                    - phoneNumber
+                  properties:
+                    phoneNumber:
+                      type: string
+                    cnh:
+                      type: array
+                      items:
+                        type: string
+                    addressProof:
+                      type: array
+                      items:
+                        type: string
+              required:
+                - rntrc
+                - owner
+            examples: {}
+    delete:
+      summary: Remove a ANTT from Workspace.
+      operationId: delete-driver-worspaces-workspaceId-antts-anttId
+      responses:
+        '204':
+          description: No Content
+  '/driver-worspaces/{workspaceId}/owners':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+    post:
+      summary: Add Owner to Workspace.
+      operationId: post-driver-worspaces-workspaceId-owners
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phoneNumber:
+                  type: string
+                cnh:
+                  type: array
+                  items:
+                    type: string
+                addressProof:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - phoneNumber
+            examples: {}
+  '/driver-worspaces/{workspaceId}/owners/{ownerId}':
+    parameters:
+      - schema:
+          type: string
+        name: workspaceId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: ownerId
+        in: path
+        required: true
+    put:
+      summary: Update a Owner.
+      operationId: put-driver-worspaces-workspaceId-owners-ownerId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                example-1:
+                  phoneNumber: string
+                  cnh:
+                    - string
+                  addressProof:
+                    - string
+              properties:
+                phoneNumber:
+                  type: string
+                cnh:
+                  type: array
+                  items:
+                    type: string
+                addressProof:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - phoneNumber
+    delete:
+      summary: Remove Owner from Workspace.
+      operationId: delete-driver-worspaces-workspaceId-owners-ownerId
+      responses:
+        '204':
+          description: No Content
 components:
   schemas:
     Error:
@@ -2766,8 +3191,6 @@ components:
         id: 68kmefjpzv4tu
       type: object
       properties:
-        id:
-          type: number
         licensePlate:
           type: string
         crlv:
@@ -2779,7 +3202,6 @@ components:
         antt:
           $ref: '#/components/schemas/Antt'
       required:
-        - id
         - crlv
         - owner
         - antt
