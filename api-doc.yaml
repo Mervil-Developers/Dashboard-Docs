@@ -2181,7 +2181,7 @@ paths:
               properties:
                 cpf:
                   type: string
-  '/driver-workspace/{workspaceId}':
+  '/driver-workspaces/{workspaceId}':
     parameters:
       - schema:
           type: string
@@ -2211,10 +2211,10 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Owner'
-      operationId: get-driver-workspace-workspaceId
+      operationId: get-driver-workspaces-workspaceId
     delete:
       summary: Delete a Workspace.
-      operationId: delete-driver-workspace-workspaceId
+      operationId: delete-driver-workspaces-workspaceId
       responses:
         '204':
           description: No Content
@@ -2472,7 +2472,7 @@ paths:
                 - truckTractor
                 - truckTrailers
             examples: {}
-  '/driver-worspaces/{workspaceId}/images':
+  '/driver-workspaces/{workspaceId}/images':
     parameters:
       - schema:
           type: string
@@ -2481,7 +2481,7 @@ paths:
         required: true
     post:
       summary: Upload images to Workspace.
-      operationId: post-driver-worspaces-workspaceId-images
+      operationId: post-driver-workspaces-workspaceId-images
       responses:
         '201':
           description: Created
@@ -2501,7 +2501,7 @@ paths:
                   type: array
                   items: {}
         description: ''
-  '/driver-worspaces/{workspaceId}/images/{imageName}':
+  '/driver-workspaces/{workspaceId}/images/{imageName}':
     parameters:
       - schema:
           type: string
@@ -2517,14 +2517,14 @@ paths:
       summary: Stream file
       tags: []
       responses: {}
-      operationId: get-driver-worspaces-workspaceId-images-imageName
+      operationId: get-driver-workspaces-workspaceId-images-imageName
     delete:
       summary: Remove file from Workspace.
-      operationId: delete-driver-worspaces-workspaceId-images-imageName
+      operationId: delete-driver-workspaces-workspaceId-images-imageName
       responses:
         '204':
           description: No Content
-  '/driver-worspaces/{workspaceId}/antts':
+  '/driver-workspaces/{workspaceId}/antts':
     parameters:
       - schema:
           type: string
@@ -2533,7 +2533,7 @@ paths:
         required: true
     post:
       summary: Add a ANTT to Workspace.
-      operationId: post-driver-worspaces-workspaceId-antts
+      operationId: post-driver-workspaces-workspaceId-antts
       requestBody:
         content:
           application/json:
@@ -2572,7 +2572,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Antt'
-  '/driver-worspaces/{workspaceId}/antts/{anttId}':
+  '/driver-workspaces/{workspaceId}/antts/{anttId}':
     parameters:
       - schema:
           type: string
@@ -2586,7 +2586,7 @@ paths:
         required: true
     put:
       summary: Update a ANNT.
-      operationId: put-driver-worspaces-workspaceId-antts-anttId
+      operationId: put-driver-workspaces-workspaceId-antts-anttId
       responses:
         '200':
           description: OK
@@ -2637,11 +2637,11 @@ paths:
             examples: {}
     delete:
       summary: Remove a ANTT from Workspace.
-      operationId: delete-driver-worspaces-workspaceId-antts-anttId
+      operationId: delete-driver-workspaces-workspaceId-antts-anttId
       responses:
         '204':
           description: No Content
-  '/driver-worspaces/{workspaceId}/owners':
+  '/driver-workspaces/{workspaceId}/owners':
     parameters:
       - schema:
           type: string
@@ -2650,7 +2650,7 @@ paths:
         required: true
     post:
       summary: Add Owner to Workspace.
-      operationId: post-driver-worspaces-workspaceId-owners
+      operationId: post-driver-workspaces-workspaceId-owners
       responses:
         '201':
           description: Created
@@ -2677,7 +2677,7 @@ paths:
               required:
                 - phoneNumber
             examples: {}
-  '/driver-worspaces/{workspaceId}/owners/{ownerId}':
+  '/driver-workspaces/{workspaceId}/owners/{ownerId}':
     parameters:
       - schema:
           type: string
@@ -2691,7 +2691,7 @@ paths:
         required: true
     put:
       summary: Update a Owner.
-      operationId: put-driver-worspaces-workspaceId-owners-ownerId
+      operationId: put-driver-workspaces-workspaceId-owners-ownerId
       responses:
         '200':
           description: OK
@@ -2726,7 +2726,7 @@ paths:
                 - phoneNumber
     delete:
       summary: Remove Owner from Workspace.
-      operationId: delete-driver-worspaces-workspaceId-owners-ownerId
+      operationId: delete-driver-workspaces-workspaceId-owners-ownerId
       responses:
         '204':
           description: No Content
