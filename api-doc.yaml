@@ -8,18 +8,21 @@ servers:
   - url: 'http://177.55.51.87:4010'
     description: Server
 tags:
+  - name: ANTTs
   - name: Atua
   - name: Completed
   - name: Deleted
-  - name: Drivers
   - name: History
+  - name: Images
   - name: Notes
+  - name: Owners
   - name: Reports
   - name: Sectors
   - name: Tasks
   - name: Teams
   - name: Tickets
   - name: Users
+  - name: Workspaces
 paths:
   /users:
     get:
@@ -74,10 +77,8 @@ paths:
                   type: string
                 password:
                   type: string
-                sectorIds:
-                  type: array
-                  items:
-                    type: integer
+                sectorId:
+                  type: integer
                 teamId:
                   type: integer
                 roleName:
@@ -296,6 +297,10 @@ paths:
                   type: integer
                 isTimeManaged:
                   type: boolean
+                passable:
+                  type: boolean
+                completable:
+                  type: boolean
               required:
                 - title
                 - sequence
@@ -338,6 +343,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+              examples: {}
       operationId: get-tasks-taskId
     patch:
       summary: Update a Task
@@ -367,6 +373,12 @@ paths:
                   type: string
                 sequence:
                   type: integer
+                isTimeManaged:
+                  type: boolean
+                passable:
+                  type: boolean
+                completable:
+                  type: boolean
     delete:
       summary: Delete a Task
       tags:
@@ -1505,6 +1517,27 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - Tickets
+  '/tickets/{ticketId}/tasks/end':
+    parameters:
+      - schema:
+          type: string
+        name: ticketId
+        in: path
+        required: true
+    put:
+      summary: Complete Ticket.
+      operationId: put-tickets-ticketId-tasks-end
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   '/tickets/{ticketId}/tasks/{taskId}':
     parameters:
       - schema:
@@ -2134,7 +2167,8 @@ paths:
   /driver-workspaces:
     get:
       summary: Get Workspaces
-      tags: []
+      tags:
+        - Workspaces
       responses:
         '200':
           description: OK
@@ -2181,6 +2215,8 @@ paths:
               properties:
                 cpf:
                   type: string
+      tags:
+        - Workspaces
   '/driver-workspaces/{workspaceId}':
     parameters:
       - schema:
@@ -2190,7 +2226,8 @@ paths:
         required: true
     get:
       summary: Get a Workspace
-      tags: []
+      tags:
+        - Workspaces
       responses:
         '200':
           description: OK
@@ -2219,6 +2256,8 @@ paths:
         '204':
           description: No Content
       description: ''
+      tags:
+        - Workspaces
   '/driver-workspaces/{workspaceId}/result':
     parameters:
       - schema:
@@ -2228,7 +2267,8 @@ paths:
         required: true
     get:
       summary: Get Driver Workspace Result
-      tags: []
+      tags:
+        - Workspaces
       responses:
         '200':
           description: OK
@@ -2472,6 +2512,8 @@ paths:
                 - truckTractor
                 - truckTrailers
             examples: {}
+      tags:
+        - Workspaces
   '/driver-workspaces/{workspaceId}/images':
     parameters:
       - schema:
@@ -2501,6 +2543,8 @@ paths:
                   type: array
                   items: {}
         description: ''
+      tags:
+        - Images
   '/driver-workspaces/{workspaceId}/images/{imageName}':
     parameters:
       - schema:
@@ -2515,7 +2559,8 @@ paths:
         required: true
     get:
       summary: Stream file
-      tags: []
+      tags:
+        - Images
       responses: {}
       operationId: get-driver-workspaces-workspaceId-images-imageName
     delete:
@@ -2524,6 +2569,8 @@ paths:
       responses:
         '204':
           description: No Content
+      tags:
+        - Images
   '/driver-workspaces/{workspaceId}/antts':
     parameters:
       - schema:
@@ -2572,6 +2619,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Antt'
+      tags:
+        - ANTTs
   '/driver-workspaces/{workspaceId}/antts/{anttId}':
     parameters:
       - schema:
@@ -2635,12 +2684,16 @@ paths:
                 - rntrc
                 - owner
             examples: {}
+      tags:
+        - ANTTs
     delete:
       summary: Remove a ANTT from Workspace.
       operationId: delete-driver-workspaces-workspaceId-antts-anttId
       responses:
         '204':
           description: No Content
+      tags:
+        - ANTTs
   '/driver-workspaces/{workspaceId}/owners':
     parameters:
       - schema:
@@ -2677,6 +2730,8 @@ paths:
               required:
                 - phoneNumber
             examples: {}
+      tags:
+        - Owners
   '/driver-workspaces/{workspaceId}/owners/{ownerId}':
     parameters:
       - schema:
@@ -2724,12 +2779,16 @@ paths:
                     type: string
               required:
                 - phoneNumber
+      tags:
+        - Owners
     delete:
       summary: Remove Owner from Workspace.
       operationId: delete-driver-workspaces-workspaceId-owners-ownerId
       responses:
         '204':
           description: No Content
+      tags:
+        - Owners
 components:
   schemas:
     Error:
@@ -2793,6 +2852,12 @@ components:
           maximum: 99
         isTimeManaged:
           type: boolean
+        completable:
+          type: boolean
+          default: false
+        passable:
+          type: boolean
+          default: true
       required:
         - id
         - title
@@ -2896,7 +2961,9 @@ components:
           type: string
           maxLength: 20
         price:
-          type: number
+          type:
+            - number
+            - 'null'
         status:
           $ref: '#/components/schemas/StatusEnum'
         stopOver:
@@ -2916,6 +2983,10 @@ components:
           type: integer
         stopped:
           type: boolean
+        orderNumber:
+          type:
+            - integer
+            - 'null'
       required:
         - id
         - licensePlate
@@ -2925,7 +2996,6 @@ components:
         - originState
         - destinyCity
         - destinyState
-        - price
         - status
         - stopOver
         - product
@@ -2934,6 +3004,7 @@ components:
         - isPriotity
         - isRiskManaged
         - stopped
+        - orderNumber
     TaskPermission:
       title: TaskPermission
       x-stoplight:
