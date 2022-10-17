@@ -2207,7 +2207,7 @@ paths:
         - Workspaces
   /driver-workspaces/search:
     get:
-      summary: Get Workspaces
+      summary: Search Workspaces
       tags:
         - Workspaces
       responses:
@@ -2228,7 +2228,7 @@ paths:
                       type: string
                   required:
                     - cpf
-      operationId: get-driver-workspaces
+      operationId: search-driver-workspaces
       parameters:
         - schema:
             type: string
@@ -2362,76 +2362,7 @@ paths:
                   - lastManifest
                   - references
                   - bankAccount
-              examples:
-                example-1:
-                  value:
-                    driver:
-                      id: 0
-                      phoneNumber: string
-                      cnh:
-                        - string
-                      addressProof:
-                        - string
-                      cpf: string
-                      name: string
-                    pictures:
-                      - string
-                    lastManifest:
-                      - string
-                    references:
-                      personalContacts:
-                        - string
-                      companyContacts:
-                        - string
-                      experienceTime: string
-                      observation: string
-                    bankAccount:
-                      fullName: string
-                      cpf: string
-                      bankName: string
-                      agencyNumber: string
-                      accountNumber: string
-                      pixNumber: string
-                    truckTractor:
-                      licensePlate: string
-                      crlv:
-                        - string
-                      owner:
-                        id: 0
-                        phoneNumber: string
-                        cnh:
-                          - string
-                        addressProof:
-                          - string
-                      antt:
-                        id: 0
-                        rntrc:
-                          - string
-                        phoneNumber: string
-                        cnh:
-                          - string
-                        addressProof:
-                          - string
-                    truckTrailers:
-                      - licensePlate: string
-                        crlv:
-                          - string
-                        owner:
-                          id: 0
-                          phoneNumber: string
-                          cnh:
-                            - string
-                          addressProof:
-                            - string
-                        antt:
-                          id: 0
-                          rntrc:
-                            - string
-                          phoneNumber: string
-                          cnh:
-                            - string
-                          addressProof:
-                            - string
+              examples: {}
       operationId: get-driver-workspaces-workspaceId-result
     put:
       summary: Update Driver Result.
