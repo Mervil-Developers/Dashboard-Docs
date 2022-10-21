@@ -2267,6 +2267,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Owner'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          $ref: '#/components/responses/404'
       operationId: get-driver-workspaces-workspaceId
     delete:
       summary: Delete a Workspace.
@@ -2274,6 +2282,14 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       description: ''
       tags:
         - Workspaces
@@ -2363,11 +2379,29 @@ paths:
                   - references
                   - bankAccount
               examples: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       operationId: get-driver-workspaces-workspaceId-result
     put:
       summary: Update Driver Result.
       operationId: put-driver-workspaces-workspaceId-result
-      responses: {}
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       requestBody:
         content:
           application/json:
@@ -2552,6 +2586,14 @@ paths:
                 type: array
                 items:
                   type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       requestBody:
         content:
           multipart/form-data:
@@ -2588,6 +2630,16 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
       tags:
         - Images
   '/driver-workspaces/{workspaceId}/antts':
@@ -2638,6 +2690,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Antt'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - ANTTs
   '/driver-workspaces/{workspaceId}/antts/{anttId}':
@@ -2662,6 +2722,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Antt'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       requestBody:
         content:
           application/json:
@@ -2711,6 +2779,16 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
       tags:
         - ANTTs
   '/driver-workspaces/{workspaceId}/owners':
@@ -2730,6 +2808,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Owner'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          $ref: '#/components/responses/404'
       requestBody:
         content:
           application/json:
@@ -2773,6 +2859,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Owner'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       requestBody:
         content:
           application/json:
@@ -2806,6 +2900,16 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
       tags:
         - Owners
 components:
