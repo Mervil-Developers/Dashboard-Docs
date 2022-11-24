@@ -1832,7 +1832,7 @@ paths:
                       properties:
                         taskId:
                           type: number
-                        timeInSeconds:
+                        timeInMinutes:
                           type: number
                           minimum: 0
                       required:
@@ -1851,12 +1851,12 @@ paths:
                             properties:
                               taskId:
                                 type: number
-                              timeInSeconds:
+                              timeInMinutes:
                                 type: number
                                 minimum: 0
                             required:
                               - taskId
-                              - timeInSeconds
+                              - timeInMinutes
                       required:
                         - durations
         '400':
@@ -1872,12 +1872,12 @@ paths:
         - schema:
             type: number
           in: query
-          name: fromTaskId
+          name: fromTaskSequence
           required: true
         - schema:
             type: number
           in: query
-          name: toTaskId
+          name: toTaskSequence
           required: true
         - schema:
             type: string
@@ -1894,14 +1894,69 @@ paths:
       tags:
         - Reports
     parameters: []
-  /reports/moment:
-    post:
-      summary: Manually create a Moment.
-      tags:
-        - Reports
+  /reports/timeline:
+    get:
+      summary: Get Timeline Report.
       responses:
-        '201':
-          description: Created
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timeline:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ticketId:
+                          type: integer
+                        timeline:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              action:
+                                type: string
+                                enum:
+                                  - START
+                                  - APPROVED
+                                  - STOP
+                                  - DECLINED
+                              userId:
+                                type: integer
+                              timestamp:
+                                type: string
+                                format: date-time
+                      required:
+                        - ticketId
+                  productivity:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId:
+                          type: integer
+                        occupation:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              state:
+                                type: string
+                                enum:
+                                  - ACTIVE
+                                  - INACTIVE
+                                  - IDLE
+                                description: IDLE quando NÃO há tickets para se trabalhar. INACTIVE quando HÁ tickets para se trabalhar.
+                              durationInMinutes:
+                                type: number
+                            required:
+                              - state
+                              - durationInMinutes
+                      required:
+                        - occupation
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1909,159 +1964,23 @@ paths:
         '403':
           $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/403'
-      operationId: post-reports-moment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                ticketId:
-                  type: number
-                action:
-                  type: string
-                  enum:
-                    - START
-                    - STOP
-              required:
-                - ticketId
-                - action
-  /atua/ordem-carregamento:
-    post:
-      summary: Atua - Criação da Ordem de Carregamento
-      operationId: post-atua
-      responses:
-        '201':
-          description: Created
-        '400':
-          $ref: '#/components/responses/400'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              x-examples:
-                example-1:
-                  licensePlate: string
-                  price: 0
-                  originCity: string
-                  destinyCity: string
-                  clientName: string
-                  status: string
-                  loadingDate: string
-                  stopOver: string
-                  product: string
-                  isTrocaNota: true
-                  driverName: string
-                  taskId: 0
-              properties:
-                licensePlate:
-                  type: string
-                  description: Placa do veículo.
-                origin:
-                  $ref: '#/components/schemas/City'
-                destiny:
-                  $ref: '#/components/schemas/City'
-                clientName:
-                  type: string
-                  description: Refere-se ao campo Remetente na ordem de carregamento.
-                loadingDate:
-                  type: string
-                  format: date
-                  description: Data em que o carregamento acontecerá. Padrão ISO 8601.
-                product:
-                  type: string
-                  description: Produto a ser transportado.
-                driverName:
-                  type: string
-                  description: Nome do motorista.
-                username:
-                  type: string
-                  description: Nome do usuário que emitiu a ordem de carregamento. Presente no PDF em "ASSINATURA DO USUÁRIO ......"
-                cdOrdem:
-                  type:
-                    - number
-                    - string
-                  description: Código único da ordem de carregamento.
-              required:
-                - licensePlate
-                - origin
-                - destiny
-                - clientName
-                - loadingDate
-                - product
-                - driverName
-                - username
-            examples: {}
-      description: |-
-        Web hook chamado quando uma nova ordem de carregamento é emitida. 
-        Cria um novo cartão.
-      security: []
+          $ref: '#/components/responses/404'
+      operationId: get-reports-timeline
+      parameters:
+        - schema:
+            type: string
+            format: date-time
+          in: query
+          name: day
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: taskId
+          required: true
       tags:
-        - Atua
-        - Tickets
+        - Reports
     parameters: []
-  '/atua/ordem-carregamento/{cdOrdem}':
-    parameters:
-      - schema:
-          type: string
-        name: cdOrdem
-        in: path
-        required: true
-    patch:
-      summary: Atua - Atualização da Ordem de Carregamento
-      operationId: patch-atua-ordem-carregamento-ordemCarregamentoId
-      responses:
-        '200':
-          description: OK
-      description: |
-        Web hook chamado quando uma ordem de carregamento existente é atualizada. 
-      tags:
-        - Atua
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              x-examples:
-                example-1:
-                  licensePlate: string
-                  origin:
-                    city: string
-                    state: string
-                  destiny:
-                    city: string
-                    state: string
-                  clientName: string
-                  loadingDate: '2019-08-24'
-                  product: string
-                  driverName: string
-                  username: string
-                  cdOrdem: 0
-              properties:
-                licensePlate:
-                  type: string
-                  description: Placa do veículo.
-                origin:
-                  $ref: '#/components/schemas/City'
-                destiny:
-                  $ref: '#/components/schemas/City'
-                clientName:
-                  type: string
-                  description: 'Refere-se ao campo Remetente na ordem de carregamento. '
-                loadingDate:
-                  type: string
-                  description: Data em que o carregamento acontecerá. Padrão ISO 8601.Data em que o carregamento acontecerá. Padrão ISO 8601.
-                product:
-                  type: string
-                  description: Produto a ser transportado.
-                driverName:
-                  type: string
-                  description: Nome do motorista.
-                username:
-                  type: string
-                  description: Nome do usuário que realizou a atualização da ordem de carregamento.
   /teams:
     get:
       summary: Get many Teams.
@@ -3104,8 +3023,6 @@ components:
           type: boolean
         position:
           type: integer
-        stopped:
-          type: boolean
         orderNumber:
           type:
             - integer
@@ -3126,7 +3043,6 @@ components:
         - loadingDate
         - isPriotity
         - isRiskManaged
-        - stopped
         - orderNumber
     TaskPermission:
       title: TaskPermission
