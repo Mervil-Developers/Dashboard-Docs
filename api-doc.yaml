@@ -190,6 +190,20 @@ paths:
         '404':
           description: Not Found
       operationId: delete-users-userId
+    post:
+      summary: Restore user
+      operationId: post-users-userId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   /tasks:
     post:
       summary: Create a Task
@@ -2630,6 +2644,68 @@ paths:
               properties:
                 value:
                   $ref: '#/components/schemas/RoleEnum'
+              required:
+                - value
+  '/users/{userId}/password':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Change User Password
+      operationId: put-users-userId-password
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+              required:
+                - value
+  '/users/{userId}/phone-number':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Change phone number.
+      operationId: put-users-userId-phone-number
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
               required:
                 - value
 components:
