@@ -19,7 +19,7 @@ tags:
   - name: Reports
   - name: Sectors
   - name: Tasks
-  - name: Teams
+  - name: Rooms
   - name: Tickets
   - name: Users
   - name: Workspaces
@@ -91,7 +91,7 @@ paths:
                 sectorId:
                   type: string
                   format: uuid
-                teamId:
+                roomId:
                   type: string
                   format: uuid
                 roleName:
@@ -1765,11 +1765,11 @@ paths:
       tags:
         - Reports
     parameters: []
-  /teams:
+  /rooms:
     get:
-      summary: Get many Teams.
+      summary: Get many Rooms.
       tags:
-        - Teams
+        - Rooms
       responses:
         '200':
           description: OK
@@ -1778,25 +1778,30 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Team'
+                  $ref: '#/components/schemas/Room'
         '400':
           $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      operationId: get-teams
+      operationId: get-rooms
     post:
-      summary: Create one Team.
+      summary: Create one Room.
       tags:
-        - Teams
+        - Rooms
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Team'
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                  - id
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1805,38 +1810,18 @@ paths:
           $ref: '#/components/responses/403'
         '422':
           $ref: '#/components/responses/422'
-      operationId: post-teams
-  '/teams/{teamId}':
+      operationId: post-rooms
+  '/rooms/{roomId}':
     parameters:
       - schema:
           type: string
-        name: teamId
+        name: roomId
         in: path
         required: true
-    patch:
-      summary: Update one Team.
-      tags:
-        - Teams
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Team'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      operationId: patch-teams-teamId
     delete:
-      summary: Delete one Team.
+      summary: Delete one Room.
       tags:
-        - Teams
+        - Rooms
       responses:
         '200':
           description: OK
@@ -1848,7 +1833,64 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      operationId: delete-teams-teamId
+      operationId: delete-rooms-roomId
+  '/rooms/{roomId}/info':
+    parameters:
+      - schema:
+          type: string
+        name: roomId
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-rooms-roomId-info
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+  '/rooms/{roomId}/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: roomId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    post:
+      summary: Transfer User to Room.
+      operationId: post-rooms-roomId-users-userId
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   /driver-workspaces:
     get:
       summary: Get Workspaces
@@ -2597,6 +2639,37 @@ paths:
           $ref: '#/components/responses/422'
       tags:
         - Owners
+  '/users/{userId}/password':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Change User Password
+      operationId: put-users-userId-password
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+              required:
+                - value
   '/users/{userId}/info':
     parameters:
       - schema:
@@ -2644,37 +2717,6 @@ paths:
               properties:
                 value:
                   $ref: '#/components/schemas/RoleEnum'
-              required:
-                - value
-  '/users/{userId}/password':
-    parameters:
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
-    put:
-      summary: Change User Password
-      operationId: put-users-userId-password
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                value:
-                  type: string
               required:
                 - value
   '/users/{userId}/phone-number':
@@ -2728,7 +2770,6 @@ components:
     User:
       title: User
       type: object
-      description: ''
       examples: []
       properties:
         id:
@@ -2740,12 +2781,14 @@ components:
           type: string
         cellphone:
           type: string
-        sector:
-          $ref: '#/components/schemas/Sector'
+        sectors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sector'
         roleName:
           $ref: '#/components/schemas/RoleEnum'
-        team:
-          $ref: '#/components/schemas/Team'
+        room:
+          $ref: '#/components/schemas/Room'
       required:
         - id
         - username
@@ -3041,14 +3084,15 @@ components:
         - APPROVED
         - IN_PROGRESS
         - DECLINED
-    Team:
-      title: Team
+    Room:
+      title: Room
       x-stoplight:
-        id: 9ibykh1hlstik
+        id: 185b786c3d444
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
       required:
