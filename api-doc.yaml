@@ -2865,9 +2865,9 @@ components:
         id:
           type: integer
           description: Unique identifier for the given user.
-        username:
+        name:
           type: string
-        fullName:
+        username:
           type: string
         cellphone:
           type: string
@@ -2881,8 +2881,8 @@ components:
           $ref: '#/components/schemas/Room'
       required:
         - id
+        - name
         - username
-        - fullName
         - cellphone
         - roleName
     Task:
@@ -2925,12 +2925,9 @@ components:
           type: integer
         name:
           type: string
-        description:
-          type: string
       required:
         - id
         - name
-        - description
     TicketNote:
       title: TicketNote
       x-stoplight:
