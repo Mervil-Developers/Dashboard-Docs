@@ -2869,7 +2869,7 @@ components:
           type: string
         username:
           type: string
-        cellphone:
+        phoneNumber:
           type: string
         sectors:
           type: array
@@ -2883,7 +2883,7 @@ components:
         - id
         - name
         - username
-        - cellphone
+        - phoneNumber
         - roleName
     Task:
       type: object
