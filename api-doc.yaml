@@ -380,7 +380,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sector'
+                type: object
+                properties:
+                  id:
+                    type: string
       operationId: post-sectors
       requestBody:
         content:
@@ -389,8 +392,6 @@ paths:
               type: object
               properties:
                 name:
-                  type: string
-                description:
                   type: string
               required:
                 - name
@@ -1877,9 +1878,23 @@ paths:
         name: userId
         in: path
         required: true
-    post:
+    put:
       summary: Transfer User to Room.
-      operationId: post-rooms-roomId-users-userId
+      operationId: put-rooms-roomId-users-userId
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      summary: Remove User from Room.
+      operationId: delete-rooms-roomId-users-userId
       responses:
         '202':
           description: Accepted
@@ -2750,6 +2765,81 @@ paths:
                   type: string
               required:
                 - value
+  '/sectors/{sectorId}/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Add User to Sector.
+      operationId: put-sectors-sectorId-users-userId
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      summary: Remove User from Sector.
+      operationId: delete-sectors-sectorId-users-userId
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /sector-transfer:
+    parameters: []
+    post:
+      summary: Initiate sector transfer.
+      operationId: post-sector-transfer
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                fromSectorId:
+                  type: string
+                  format: uuid
+                toSectorId:
+                  type: string
+                  format: uuid
+              required:
+                - userId
+                - fromSectorId
+                - toSectorId
 components:
   schemas:
     Error:
