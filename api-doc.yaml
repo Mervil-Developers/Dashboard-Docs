@@ -63,6 +63,7 @@ paths:
                 properties:
                   id:
                     type: string
+                    format: uuid
                 required:
                   - id
         '400':
@@ -384,6 +385,7 @@ paths:
                 properties:
                   id:
                     type: string
+                    format: uuid
       operationId: post-sectors
       requestBody:
         content:
@@ -419,62 +421,6 @@ paths:
         name: sectorId
         in: path
         required: true
-    get:
-      summary: Get a Sector
-      tags:
-        - Sectors
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sector'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      operationId: get-sectors-sectorId
-    patch:
-      summary: Update a Sector
-      tags:
-        - Sectors
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sector'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      operationId: patch-sectors-sectorId
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-          application/xml:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
     delete:
       summary: Delete a Sector
       tags:
@@ -1710,7 +1656,8 @@ paths:
                                   - STOP
                                   - DECLINED
                               userId:
-                                type: integer
+                                type: string
+                                format: uuid
                               timestamp:
                                 type: string
                                 format: date-time
@@ -1722,7 +1669,8 @@ paths:
                       type: object
                       properties:
                         userId:
-                          type: integer
+                          type: string
+                          format: uuid
                         occupation:
                           type: array
                           items:
@@ -2840,6 +2788,37 @@ paths:
                 - userId
                 - fromSectorId
                 - toSectorId
+  '/sectors/{sectorId}/info':
+    parameters:
+      - schema:
+          type: string
+        name: sectorId
+        in: path
+        required: true
+    put:
+      summary: Update Sector Info
+      operationId: put-sectors-sectorId-info
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
 components:
   schemas:
     Error:
@@ -2863,7 +2842,8 @@ components:
       examples: []
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
           description: Unique identifier for the given user.
         name:
           type: string
@@ -2922,7 +2902,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
       required:
