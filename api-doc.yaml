@@ -194,6 +194,8 @@ paths:
     post:
       summary: Restore user
       operationId: post-users-userId
+      tags:
+        - Users
       responses:
         '204':
           description: No Content
@@ -1269,6 +1271,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - Tickets
   '/tickets/{ticketId}/tasks/{taskId}':
     parameters:
       - schema:
@@ -1791,7 +1795,7 @@ paths:
         in: path
         required: true
     put:
-      summary: ''
+      summary: Update Room Info
       operationId: put-rooms-roomId-info
       responses:
         '204':
@@ -1840,6 +1844,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+      tags:
+        - Users
+        - Rooms
     delete:
       summary: Remove User from Room.
       operationId: delete-rooms-roomId-users-userId
@@ -1854,6 +1861,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+      tags:
+        - Rooms
+        - Users
   /driver-workspaces:
     get:
       summary: Get Workspaces
@@ -2633,6 +2643,8 @@ paths:
                   type: string
               required:
                 - value
+      tags:
+        - Users
   '/users/{userId}/info':
     parameters:
       - schema:
@@ -2659,6 +2671,8 @@ paths:
               required:
                 - name
                 - username
+      tags:
+        - Users
   '/users/{userId}/role':
     parameters:
       - schema:
@@ -2682,6 +2696,8 @@ paths:
                   $ref: '#/components/schemas/RoleEnum'
               required:
                 - value
+      tags:
+        - Users
   '/users/{userId}/phone-number':
     parameters:
       - schema:
@@ -2713,6 +2729,8 @@ paths:
                   type: string
               required:
                 - value
+      tags:
+        - Users
   '/sectors/{sectorId}/users/{userId}':
     parameters:
       - schema:
@@ -2739,6 +2757,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+      tags:
+        - Sectors
+        - Users
     delete:
       summary: Remove User from Sector.
       operationId: delete-sectors-sectorId-users-userId
@@ -2753,6 +2774,9 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+      tags:
+        - Sectors
+        - Users
   /sector-transfer:
     parameters: []
     post:
@@ -2788,6 +2812,8 @@ paths:
                 - userId
                 - fromSectorId
                 - toSectorId
+      tags:
+        - Sectors
   '/sectors/{sectorId}/info':
     parameters:
       - schema:
@@ -2819,6 +2845,8 @@ paths:
                   type: string
               required:
                 - name
+      tags:
+        - Sectors
 components:
   schemas:
     Error:
