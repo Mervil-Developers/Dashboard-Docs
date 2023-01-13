@@ -171,7 +171,7 @@ paths:
   '/users/{userId}':
     parameters:
       - schema:
-          type: integer
+          type: string
         name: userId
         in: path
         required: true
@@ -419,7 +419,7 @@ paths:
   '/sectors/{sectorId}':
     parameters:
       - schema:
-          type: integer
+          type: string
         name: sectorId
         in: path
         required: true
@@ -442,7 +442,7 @@ paths:
   '/sectors/{sectorId}/task-permissions':
     parameters:
       - schema:
-          type: integer
+          type: string
         name: sectorId
         in: path
         required: true
@@ -645,7 +645,7 @@ paths:
   '/tickets/{ticketId}':
     parameters:
       - schema:
-          type: integer
+          type: string
         name: ticketId
         in: path
         required: true
@@ -1301,34 +1301,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - Tickets
-  '/completed-tickets/{ticketId}/tasks/{taskId}':
-    parameters:
-      - schema:
-          type: integer
-        name: ticketId
-        in: path
-        required: true
-      - schema:
-          type: integer
-        name: taskId
-        in: path
-        required: true
-    put:
-      summary: Return a Ticket to a task.
-      operationId: put-compelted-tickets-ticketId-tasks-taskId
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - Completed
   /solicitations:
     post:
       summary: Create a Solicitation.
