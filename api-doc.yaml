@@ -667,8 +667,6 @@ paths:
                   type: boolean
                 driverName:
                   type: string
-                isPriority:
-                  type: boolean
                 isRiskManaged:
                   type: boolean
         name: ticketId
@@ -914,6 +912,26 @@ paths:
                   type: number
               required:
                 - ticketId
+    get:
+      summary: Get solicitation
+      operationId: get-solicitations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Solicitation'
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
+          required: true
+      x-extension-1: null
   '/solicitations/{solicitationId}':
     parameters:
       - schema:
@@ -945,22 +963,6 @@ paths:
               properties:
                 approved:
                   type: boolean
-    delete:
-      summary: Delete a Solicitation.
-      tags:
-        - Solicitations
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      operationId: delete-solicitations-solicitationId
   '/sectors/{sectorId}/solicitations':
     parameters:
       - schema:
@@ -2414,6 +2416,37 @@ paths:
                 - name
       tags:
         - Sectors
+  '/tickets/{ticketId}/priority':
+    parameters:
+      - schema:
+          type: string
+        name: ticketId
+        in: path
+        required: true
+    put:
+      summary: Update Ticket Priority
+      operationId: put-tickets-ticketId-priority
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: boolean
+              required:
+                - value
 components:
   schemas:
     Error:
@@ -2722,21 +2755,15 @@ components:
           type: number
         createdBy:
           $ref: '#/components/schemas/CondensedUser'
-        analyzedBy:
-          $ref: '#/components/schemas/CondensedUser'
         createdAt:
           type: string
           format: date-time
-        status:
-          $ref: '#/components/schemas/SolicitatioNStatus'
         ticketId:
           type: number
       required:
         - id
         - createdBy
-        - analyzedBy
         - createdAt
-        - status
         - ticketId
     SolicitatioNStatus:
       type: string
