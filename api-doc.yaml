@@ -5,21 +5,22 @@ info:
   title: Dashboard
   version: '1.0'
 servers:
-  - url: 'http://177.55.51.87:4010'
+  - url: 'https://dash-api.merviltransportes.com'
     description: Server
 tags:
   - name: ANTTs
   - name: Atua
   - name: Completed
+  - name: Contacts
   - name: Deleted
   - name: History
   - name: Images
   - name: Notes
   - name: Owners
   - name: Reports
+  - name: Rooms
   - name: Sectors
   - name: Tasks
-  - name: Rooms
   - name: Tickets
   - name: Users
   - name: Workspaces
@@ -559,6 +560,8 @@ paths:
                   $ref: '#/components/schemas/StatusEnum'
                 isRiskManaged:
                   type: boolean
+                isDriverRegistered:
+                  type: boolean
               required:
                 - licensePlate
                 - price
@@ -611,7 +614,7 @@ paths:
   '/tickets/{ticketId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: ticketId
         in: path
         required: true
@@ -836,7 +839,7 @@ paths:
   '/tickets/{ticketId}/tasks/end':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: ticketId
         in: path
         required: true
@@ -2447,6 +2450,171 @@ paths:
                   type: boolean
               required:
                 - value
+  /contacts:
+    get:
+      summary: Get contacts
+      tags:
+        - Contacts
+      responses: {}
+      operationId: get-contacts
+      description: ''
+      parameters:
+        - schema:
+            type: integer
+            default: 0
+            minimum: 0
+          in: query
+          name: page
+        - schema:
+            type: integer
+            minimum: 5
+            maximum: 20
+            default: 10
+          in: query
+          name: limit
+    post:
+      summary: Create a contact
+      operationId: post-contacts
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 3
+                  maxLength: 40
+                phoneNumber:
+                  type: string
+                  minLength: 10
+                  maxLength: 11
+                period:
+                  type: integer
+                  minimum: 1
+                userId:
+                  type: string
+                  format: uuid
+              required:
+                - name
+                - phoneNumber
+                - period
+                - userId
+      responses:
+        '201':
+          description: Created
+      tags:
+        - Contacts
+  '/contacts/{contactId}':
+    parameters:
+      - schema:
+          type: integer
+        name: contactId
+        in: path
+        required: true
+    patch:
+      summary: Update a contact
+      operationId: patch-contacts-contactId
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 40
+                  minLength: 3
+                phoneNumber:
+                  type: string
+                  minLength: 10
+                  maxLength: 11
+      tags:
+        - Contacts
+  '/contacts/{contactId}/period':
+    parameters:
+      - schema:
+          type: integer
+        name: contactId
+        in: path
+        required: true
+    put:
+      summary: Update contact period
+      operationId: put-contacts-contactId-period
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  value: 0
+              properties:
+                value:
+                  type: integer
+                  minimum: 0
+              required:
+                - value
+      tags:
+        - Contacts
+    delete:
+      summary: Inactivate contact
+      operationId: delete-contacts-contactId-period
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Contacts
+  '/contacts/{contactId}/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: contactId
+        in: path
+        required: true
+      - schema:
+          type: string
+          format: uuid
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Assign contact to an user
+      operationId: put-contacts-contactId-users-userId
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Contacts
+    delete:
+      summary: Disassociate contact from the user
+      operationId: delete-contacts-contactId-users-userId
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Contacts
+  '/users/{userId}/contacts':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Get pendent contacts of user
+      tags:
+        - Contacts
+      responses: {}
+      operationId: get-users-userId-contacts
 components:
   schemas:
     Error:
@@ -2591,12 +2759,12 @@ components:
           clientName: string
           originCity: string
           destinyCity: string
-      description: ''
       examples: []
       title: Ticket
       properties:
         id:
           type: integer
+          minimum: 0
         licensePlate:
           type: string
           maxLength: 10
