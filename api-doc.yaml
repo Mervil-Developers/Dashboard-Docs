@@ -2455,7 +2455,49 @@ paths:
       summary: Get contacts
       tags:
         - Contacts
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      minimum: 0
+                    name:
+                      type: string
+                      minLength: 3
+                      maxLength: 40
+                    phoneNumber:
+                      type: string
+                      minLength: 10
+                      maxLength: 11
+                    period:
+                      type: integer
+                      minimum: 0
+                    responsibleUser:
+                      type: object
+                      required:
+                        - id
+                        - username
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        username:
+                          type: string
+                          minLength: 3
+                          maxLength: 255
+                  required:
+                    - id
+                    - name
+                    - phoneNumber
+                    - period
+                    - responsibleUser
       operationId: get-contacts
       description: ''
       parameters:
@@ -2502,8 +2544,8 @@ paths:
                 - period
                 - userId
       responses:
-        '201':
-          description: Created
+        '204':
+          description: No Content
       tags:
         - Contacts
   '/contacts/{contactId}':
@@ -2517,8 +2559,8 @@ paths:
       summary: Update a contact
       operationId: patch-contacts-contactId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       requestBody:
         content:
           application/json:
@@ -2546,8 +2588,8 @@ paths:
       summary: Update contact period
       operationId: put-contacts-contactId-period
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       requestBody:
         content:
           application/json:
@@ -2568,8 +2610,8 @@ paths:
       summary: Inactivate contact
       operationId: delete-contacts-contactId-period
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       tags:
         - Contacts
   '/contacts/{contactId}/users/{userId}':
@@ -2589,16 +2631,16 @@ paths:
       summary: Assign contact to an user
       operationId: put-contacts-contactId-users-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       tags:
         - Contacts
     delete:
       summary: Disassociate contact from the user
       operationId: delete-contacts-contactId-users-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       tags:
         - Contacts
   '/users/{userId}/contacts':
@@ -2613,8 +2655,63 @@ paths:
       summary: Get pendent contacts of user
       tags:
         - Contacts
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 3
+                      maxLength: 40
+                    phoneNumber:
+                      type: string
+                      minLength: 10
+                      maxLength: 11
+                    period:
+                      type: integer
+                    isPendent:
+                      type: boolean
+                  required:
+                    - name
+                    - phoneNumber
+                    - period
+                    - isPendent
       operationId: get-users-userId-contacts
+      x-internal: false
+  '/contacts/{contactId}/interaction':
+    parameters:
+      - schema:
+          type: string
+        name: contactId
+        in: path
+        required: true
+    post:
+      summary: Register interaction
+      operationId: post-contacts-contactId-interaction
+      responses:
+        '201':
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                released:
+                  type: boolean
+                observation:
+                  type: string
+                  minLength: 10
+                  maxLength: 255
+              required:
+                - released
+                - observation
 components:
   schemas:
     Error:
