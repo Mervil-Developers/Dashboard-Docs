@@ -2477,8 +2477,9 @@ paths:
                       minLength: 10
                       maxLength: 11
                     period:
-                      type: integer
-                      minimum: 0
+                      type:
+                        - integer
+                        - 'null'
                     responsibleUser:
                       type: object
                       required:
@@ -2601,7 +2602,7 @@ paths:
               properties:
                 value:
                   type: integer
-                  minimum: 0
+                  minimum: 1
               required:
                 - value
       tags:
@@ -2630,14 +2631,6 @@ paths:
     put:
       summary: Assign contact to an user
       operationId: put-contacts-contactId-users-userId
-      responses:
-        '204':
-          description: No Content
-      tags:
-        - Contacts
-    delete:
-      summary: Disassociate contact from the user
-      operationId: delete-contacts-contactId-users-userId
       responses:
         '204':
           description: No Content
@@ -2675,6 +2668,7 @@ paths:
                       maxLength: 11
                     period:
                       type: integer
+                      nullable: true
                     isPendent:
                       type: boolean
                   required:
