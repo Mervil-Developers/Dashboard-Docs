@@ -2706,6 +2706,8 @@ paths:
               required:
                 - released
                 - observation
+      tags:
+        - Contacts
 components:
   schemas:
     Error:
