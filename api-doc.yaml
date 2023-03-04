@@ -2480,6 +2480,8 @@ paths:
                       type:
                         - integer
                         - 'null'
+                      minimum: 1
+                      maximum: 8
                     responsibleUser:
                       type: object
                       required:
@@ -2508,6 +2510,7 @@ paths:
             minimum: 0
           in: query
           name: page
+          description: starts at 0
         - schema:
             type: integer
             minimum: 5
@@ -2536,6 +2539,7 @@ paths:
                 period:
                   type: integer
                   minimum: 1
+                  maximum: 8
                 userId:
                   type: string
                   format: uuid
@@ -2658,6 +2662,9 @@ paths:
                 items:
                   type: object
                   properties:
+                    id:
+                      type: integer
+                      minimum: 0
                     name:
                       type: string
                       minLength: 3
@@ -2667,7 +2674,9 @@ paths:
                       minLength: 10
                       maxLength: 11
                     period:
-                      type: integer
+                      type:
+                        - integer
+                        - 'null'
                       nullable: true
                     isPendent:
                       type: boolean
@@ -2708,6 +2717,169 @@ paths:
                 - observation
       tags:
         - Contacts
+  /reports/contacts:
+    get:
+      summary: Generate contact report
+      tags:
+        - Contacts
+        - Reports
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  goal:
+                    type: object
+                    required:
+                      - total
+                      - current
+                      - percentage
+                      - maxPercentage
+                    properties:
+                      total:
+                        type: integer
+                        minimum: 0
+                      current:
+                        type: integer
+                        minimum: 0
+                      percentage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                      maxPercentage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                        description: 'The maximum possible goal reach, assuming all future goals will be meet.'
+                  positivization:
+                    type: object
+                    required:
+                      - goal
+                      - current
+                      - percentage
+                    properties:
+                      goal:
+                        type: integer
+                        minimum: 0
+                      current:
+                        type: integer
+                        minimum: 0
+                      percentage:
+                        type: number
+                        minimum: 0
+                        maximum: 100
+                  periods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        period:
+                          type: integer
+                          minimum: 1
+                          maximum: 6
+                        goal:
+                          type: object
+                          required:
+                            - total
+                            - current
+                            - percentage
+                            - maxPercentage
+                          properties:
+                            total:
+                              type: integer
+                              minimum: 0
+                            current:
+                              type: integer
+                              minimum: 0
+                            percentage:
+                              type: number
+                              minimum: 0
+                              maximum: 100
+                            maxPercentage:
+                              type: number
+                              minimum: 0
+                              maximum: 100
+                              description: 'The maximum possible goal reach, assuming all future goals will be meet.'
+                        positivization:
+                          type: object
+                          required:
+                            - goal
+                            - current
+                            - percentage
+                          properties:
+                            goal:
+                              type: integer
+                              minimum: 0
+                            current:
+                              type: integer
+                              minimum: 0
+                            percentage:
+                              type: number
+                              minimum: 0
+                              maximum: 100
+                        details:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              goal:
+                                type: integer
+                                minimum: 0
+                              current:
+                                type: integer
+                                minimum: 0
+                              percentage:
+                                type: number
+                                minimum: 0
+                                maximum: 100
+                              offset:
+                                type: integer
+                                minimum: 5
+                                maximum: 5
+                            required:
+                              - goal
+                              - current
+                              - percentage
+                              - offset
+                      required:
+                        - period
+                        - goal
+                        - positivization
+                        - details
+                required:
+                  - goal
+                  - positivization
+                  - periods
+      operationId: get-reports-contacts
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - jan
+              - feb
+              - march
+              - april
+              - may
+              - june
+              - july
+              - aug
+              - sept
+              - oct
+              - nov
+              - dec
+          in: query
+          name: month
+          required: true
+        - schema:
+            type: string
+            format: date-time
+            minimum: 2000
+            maximum: 9999
+          in: query
+          name: year
 components:
   schemas:
     Error:
