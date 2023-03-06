@@ -20,6 +20,7 @@ tags:
   - name: Reports
   - name: Rooms
   - name: Sectors
+  - name: Solicitations
   - name: Tasks
   - name: Tickets
   - name: Users
@@ -891,7 +892,6 @@ paths:
     post:
       summary: Create a Solicitation.
       tags:
-        - Tickets
         - Solicitations
       responses:
         '201':
@@ -935,6 +935,8 @@ paths:
           name: userId
           required: true
       x-extension-1: null
+      tags:
+        - Solicitations
   '/solicitations/{solicitationId}':
     parameters:
       - schema:
@@ -944,8 +946,6 @@ paths:
         required: true
     patch:
       summary: Analyze a Solicitation.
-      tags:
-        - Solicitations
       responses:
         '204':
           description: No Content
@@ -966,6 +966,8 @@ paths:
               properties:
                 approved:
                   type: boolean
+      tags:
+        - Solicitations
   '/sectors/{sectorId}/solicitations':
     parameters:
       - schema:
@@ -1390,6 +1392,8 @@ paths:
                   type: string
               required:
                 - name
+      tags:
+        - Rooms
   '/rooms/{roomId}/users/{userId}':
     parameters:
       - schema:
@@ -2450,6 +2454,8 @@ paths:
                   type: boolean
               required:
                 - value
+      tags:
+        - Tickets
   /contacts:
     get:
       summary: Get contacts
@@ -2619,10 +2625,11 @@ paths:
           description: No Content
       tags:
         - Contacts
-  '/contacts/{contactId}/users/{userId}':
+  '/users/{userId}/contacts/{contactId}':
     parameters:
       - schema:
           type: integer
+          minimum: 0
         name: contactId
         in: path
         required: true
@@ -2634,7 +2641,7 @@ paths:
         required: true
     put:
       summary: Assign contact to an user
-      operationId: put-contacts-contactId-users-userId
+      operationId: put-users-userId-contacts-contactId
       responses:
         '204':
           description: No Content
