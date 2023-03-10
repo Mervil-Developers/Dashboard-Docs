@@ -2864,29 +2864,15 @@ paths:
       parameters:
         - schema:
             type: string
-            enum:
-              - jan
-              - feb
-              - march
-              - april
-              - may
-              - june
-              - july
-              - aug
-              - sept
-              - oct
-              - nov
-              - dec
+            format: date-time
           in: query
           name: month
           required: true
         - schema:
             type: string
-            format: date-time
-            minimum: 2000
-            maximum: 9999
+            format: uuid
           in: query
-          name: year
+          name: userId
 components:
   schemas:
     Error:
