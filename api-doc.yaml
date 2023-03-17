@@ -2857,6 +2857,7 @@ paths:
                               - current
                               - percentage
                               - offset
+                              - index
                       required:
                         - period
                         - goal
