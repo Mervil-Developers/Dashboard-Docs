@@ -2848,6 +2848,10 @@ paths:
                                 type: integer
                                 minimum: -5
                                 maximum: 5
+                              index:
+                                type: number
+                                minimum: 0
+                                maximum: 6
                             required:
                               - goal
                               - current
