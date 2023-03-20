@@ -2850,6 +2850,8 @@ paths:
                                 maximum: 5
                               index:
                                 type: integer
+                                minimum: 0
+                                maximum: 6
                             required:
                               - goal
                               - current
