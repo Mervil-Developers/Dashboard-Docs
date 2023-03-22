@@ -2917,7 +2917,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Sector'
-        roleName:
+        role:
           $ref: '#/components/schemas/RoleEnum'
         room:
           $ref: '#/components/schemas/Room'
@@ -2926,7 +2926,7 @@ components:
         - name
         - username
         - phoneNumber
-        - roleName
+        - role
     Task:
       type: object
       title: Task
