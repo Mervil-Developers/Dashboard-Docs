@@ -2656,7 +2656,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get pendent contacts of user
+      summary: Get contacts of user
       tags:
         - Contacts
       responses:
@@ -2687,23 +2687,23 @@ paths:
                       nullable: true
                     isPendent:
                       type: boolean
+                    deadline:
+                      type: string
+                      format: date
                   required:
+                    - id
                     - name
                     - phoneNumber
                     - period
                     - isPendent
+                    - deadline
       operationId: get-users-userId-contacts
       x-internal: false
-  '/contacts/{contactId}/interaction':
-    parameters:
-      - schema:
-          type: string
-        name: contactId
-        in: path
-        required: true
+  /interactions:
+    parameters: []
     post:
       summary: Register interaction
-      operationId: post-contacts-contactId-interaction
+      operationId: post-contacts-contactId-interactions
       responses:
         '201':
           description: Created
@@ -2719,6 +2719,9 @@ paths:
                   type: string
                   minLength: 10
                   maxLength: 255
+                contactId:
+                  type: integer
+                  minimum: 0
               required:
                 - released
                 - observation
