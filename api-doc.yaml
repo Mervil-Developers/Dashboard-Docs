@@ -2524,6 +2524,10 @@ paths:
             default: 10
           in: query
           name: limit
+        - schema:
+            type: boolean
+          in: query
+          name: interacted
     post:
       summary: Create a contact
       operationId: post-contacts
@@ -2699,8 +2703,45 @@ paths:
                     - deadline
       operationId: get-users-userId-contacts
       x-internal: false
-  /interactions:
-    parameters: []
+  '/contacts/{contactId}/interactions':
+    parameters:
+      - schema:
+          type: integer
+        name: contactId
+        in: path
+        required: true
+    get:
+      summary: Get contact interactions
+      operationId: get-contacts-contactId-interactions
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    observation:
+                      type: string
+                      minLength: 5
+                      maxLength: 255
+                    registeredAt:
+                      type: string
+                      format: date
+                    released:
+                      type: boolean
+                    registeredBy:
+                      type: string
+                      description: Username
+                  required:
+                    - observation
+                    - registeredAt
+                    - released
+                    - registeredBy
     post:
       summary: Register interaction
       operationId: post-contacts-contactId-interactions
@@ -2719,9 +2760,6 @@ paths:
                   type: string
                   minLength: 10
                   maxLength: 255
-                contactId:
-                  type: integer
-                  minimum: 0
               required:
                 - released
                 - observation
