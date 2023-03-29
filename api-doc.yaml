@@ -2703,6 +2703,11 @@ paths:
                     - deadline
       operationId: get-users-userId-contacts
       x-internal: false
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: interacted
   '/contacts/{contactId}/interactions':
     parameters:
       - schema:
