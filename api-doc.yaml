@@ -2501,12 +2501,15 @@ paths:
                           type: string
                           minLength: 3
                           maxLength: 255
+                    isPendent:
+                      type: boolean
                   required:
                     - id
                     - name
                     - phoneNumber
                     - period
                     - responsibleUser
+                    - isPendent
       operationId: get-contacts
       description: ''
       parameters:
@@ -2528,6 +2531,11 @@ paths:
             type: boolean
           in: query
           name: interacted
+        - schema:
+            type: string
+            format: uuid
+          in: query
+          name: userId
     post:
       summary: Create a contact
       operationId: post-contacts
