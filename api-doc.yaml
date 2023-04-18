@@ -2867,6 +2867,148 @@ paths:
           in: query
           name: userId
       x-internal: false
+  /registration-form:
+    post:
+      summary: Create registration form
+      operationId: post-registration-form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workspaceId:
+                    type: integer
+                  referencedBy:
+                    type: string
+                    format: uuid
+                required:
+                  - workspaceId
+                  - referencedBy
+  '/registration-form/{formId}':
+    parameters:
+      - schema:
+          type: string
+        name: formId
+        in: path
+        required: true
+    put:
+      summary: ''
+      operationId: put-registration-form-formId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  approved:
+                    type:
+                      - boolean
+                      - 'null'
+                  reprovedReason:
+                    type:
+                      - string
+                      - 'null'
+                    minLength: 1
+                  score:
+                    type:
+                      - integer
+                      - 'null'
+                    minimum: 0
+                    maximum: 100
+                  gr:
+                    type:
+                      - boolean
+                      - 'null'
+                  driver:
+                    type: object
+                    required:
+                      - name
+                      - licensePlate
+                      - origin
+                      - destiny
+                    properties:
+                      name:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      licensePlate:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      origin:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      destiny:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                  lastManifest:
+                    type: object
+                    required:
+                      - companyName
+                      - date
+                      - origin
+                      - destiny
+                      - product
+                    properties:
+                      companyName:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      date:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      origin:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      destiny:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      product:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                  reference:
+                    type: object
+                    required:
+                      - reference
+                      - experienceTime
+                    properties:
+                      reference:
+                        type:
+                          - string
+                          - 'null'
+                      experienceTime:
+                        type:
+                          - integer
+                          - 'null'
+                        description: Tempo de experiência em dias
+                required:
+                  - approved
+                  - reprovedReason
+                  - score
+                  - gr
+                  - driver
+                  - lastManifest
+                  - reference
 components:
   schemas:
     Error:
