@@ -1461,8 +1461,11 @@ paths:
                       type: string
                     licensePlate:
                       type: string
+                    hasRegistrationForm:
+                      type: boolean
                   required:
                     - cpf
+                    - hasRegistrationForm
       operationId: get-driver-workspaces
       parameters: []
     post:
@@ -1502,8 +1505,11 @@ paths:
                       type: string
                     licensePlate:
                       type: string
+                    hasRegistrationForm:
+                      type: boolean
                   required:
                     - cpf
+                    - hasRegistrationForm
       operationId: search-driver-workspaces
       parameters:
         - schema:
@@ -2917,6 +2923,13 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/RegistrationForm'
                   - type: object
+                    properties:
+                      progress:
+                        type: integer
+                        minimum: 0
+                        maximum: 100
+                    required:
+                      - progress
 components:
   schemas:
     RegistrationForm:
