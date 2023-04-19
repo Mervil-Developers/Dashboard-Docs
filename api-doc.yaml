@@ -2898,304 +2898,325 @@ paths:
       summary: Update registration form
       operationId: put-registration-form-formId
       responses:
+        '204':
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationForm'
+    get:
+      summary: Get registration form
+      operationId: get-registration-form-formId
+      responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  approved:
-                    type:
-                      - boolean
-                      - 'null'
-                  reprovedReason:
-                    type:
-                      - string
-                      - 'null'
-                    minLength: 1
-                  score:
-                    type:
-                      - integer
-                      - 'null'
-                    minimum: 0
-                    maximum: 100
-                  gr:
-                    type:
-                      - boolean
-                      - 'null'
-                  isCnpj:
-                    type:
-                      - boolean
-                      - 'null'
-                  driverInfo:
-                    type: object
-                    required:
-                      - name
-                      - licensePlate
-                      - origin
-                      - destiny
-                    properties:
-                      name:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      licensePlate:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      origin:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      destiny:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                  documents:
-                    type: array
-                    description: 'Posição 0 é proprietário, 1 é motorista, 2 é cavalo, resto é carreta.'
-                    items:
-                      type: object
-                      properties:
-                        primaryName:
-                          type:
-                            - string
-                            - 'null'
-                          minLength: 1
-                        primaryCity:
-                          type:
-                            - string
-                            - 'null'
-                          minLength: 1
-                        secondaryName:
-                          type:
-                            - string
-                            - 'null'
-                          minLength: 1
-                        secondaryCity:
-                          type:
-                            - string
-                            - 'null'
-                          minLength: 1
-                      required:
-                        - primaryName
-                        - primaryCity
-                        - secondaryName
-                        - secondaryCity
-                  companyReferences:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type:
-                            - string
-                            - 'null'
-                        licensePlate:
-                          type:
-                            - boolean
-                            - 'null'
-                        travelQuantity:
-                          type:
-                            - integer
-                            - 'null'
-                        product:
-                          type:
-                            - string
-                            - 'null'
-                        date:
-                          type:
-                            - string
-                            - 'null'
-                          format: date-time
-                      required:
-                        - name
-                        - licensePlate
-                        - travelQuantity
-                        - product
-                        - date
-                  personalReference:
-                    type: array
-                    items:
-                      type: object
-                      minProperties: 0
-                      properties:
-                        referenceName:
-                          type:
-                            - string
-                            - 'null'
-                        kinship:
-                          type:
-                            - string
-                            - 'null'
-                          description: Parentesco
-                        name:
-                          type:
-                            - boolean
-                            - 'null'
-                        birthDate:
-                          type:
-                            - boolean
-                            - 'null'
-                        address:
-                          type:
-                            - boolean
-                            - 'null'
-                        parents:
-                          type:
-                            - boolean
-                            - 'null'
-                        color:
-                          type:
-                            - boolean
-                            - 'null'
-                      required:
-                        - referenceName
-                        - kinship
-                        - name
-                        - birthDate
-                        - address
-                        - parents
-                        - color
-                  lastManifest:
-                    type: object
-                    required:
-                      - companyName
-                      - date
-                      - origin
-                      - destiny
-                      - product
-                    properties:
-                      companyName:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      date:
-                        type:
-                          - string
-                          - 'null'
-                        format: date-time
-                      origin:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      destiny:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      product:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                  extras:
-                    type: object
-                    required:
-                      - pis
-                    properties:
-                      pis:
-                        type:
-                          - boolean
-                          - 'null'
-                      blacklist:
-                        type:
-                          - boolean
-                          - 'null'
-                      photos:
-                        type:
-                          - boolean
-                          - 'null'
-                      pix:
-                        type:
-                          - boolean
-                          - 'null'
-                      bankAccount:
-                        type:
-                          - boolean
-                          - 'null'
-                  driverReference:
-                    type: object
-                    required:
-                      - reference
-                      - experienceTime
-                      - anttDate
-                      - shaftsQuantity
-                    properties:
-                      reference:
-                        type:
-                          - string
-                          - 'null'
-                      experienceTime:
-                        type:
-                          - integer
-                          - 'null'
-                        description: Tempo de experiência em dias
-                        minimum: 0
-                      anttDate:
-                        type:
-                          - string
-                          - 'null'
-                        format: date-time
-                      shaftsQuantity:
-                        type:
-                          - integer
-                          - 'null'
-                        minimum: 2
-                  responsibleReference:
-                    type: object
-                    required:
-                      - name
-                      - type
-                      - experieceTime
-                      - truckQuantity
-                    properties:
-                      name:
-                        type:
-                          - string
-                          - 'null'
-                        minLength: 1
-                      type:
-                        type:
-                          - string
-                          - 'null'
-                        enum:
-                          - AGGREGATED
-                          - REGISTERED
-                          - COMISSION
-                      experieceTime:
-                        type:
-                          - integer
-                          - 'null'
-                        minimum: 0
-                        description: Tempo de experiência em dias
-                      truckQuantity:
-                        type:
-                          - integer
-                          - 'null'
-                        minimum: 0
-                required:
-                  - approved
-                  - reprovedReason
-                  - score
-                  - gr
-                  - driverInfo
-                  - documents
-                  - companyReferences
-                  - personalReference
-                  - lastManifest
-                  - extras
-                  - driverReference
-                  - responsibleReference
+                allOf:
+                  - $ref: '#/components/schemas/RegistrationForm'
+                  - type: object
 components:
   schemas:
+    RegistrationForm:
+      title: RegistrationForm
+      type: object
+      properties:
+        approved:
+          type:
+            - boolean
+            - 'null'
+        reprovedReason:
+          type:
+            - string
+            - 'null'
+          minLength: 1
+        score:
+          type:
+            - integer
+            - 'null'
+          minimum: 0
+          maximum: 100
+        gr:
+          type:
+            - boolean
+            - 'null'
+        isCnpj:
+          type:
+            - boolean
+            - 'null'
+        driverInfo:
+          type: object
+          required:
+            - name
+            - licensePlate
+            - origin
+            - destiny
+          properties:
+            name:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            licensePlate:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            origin:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            destiny:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+        documents:
+          type: array
+          description: 'Posição 0 é proprietário, 1 é motorista, 2 é cavalo, resto é carreta.'
+          items:
+            type: object
+            properties:
+              primaryName:
+                type:
+                  - string
+                  - 'null'
+                minLength: 1
+              primaryCity:
+                type:
+                  - string
+                  - 'null'
+                minLength: 1
+              secondaryName:
+                type:
+                  - string
+                  - 'null'
+                minLength: 1
+              secondaryCity:
+                type:
+                  - string
+                  - 'null'
+                minLength: 1
+            required:
+              - primaryName
+              - primaryCity
+              - secondaryName
+              - secondaryCity
+        companyReferences:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type:
+                  - string
+                  - 'null'
+              licensePlate:
+                type:
+                  - boolean
+                  - 'null'
+              travelQuantity:
+                type:
+                  - integer
+                  - 'null'
+              product:
+                type:
+                  - string
+                  - 'null'
+              date:
+                type:
+                  - string
+                  - 'null'
+                format: date-time
+            required:
+              - name
+              - licensePlate
+              - travelQuantity
+              - product
+              - date
+        personalReference:
+          type: array
+          items:
+            type: object
+            minProperties: 0
+            properties:
+              referenceName:
+                type:
+                  - string
+                  - 'null'
+              kinship:
+                type:
+                  - string
+                  - 'null'
+                description: Parentesco
+              name:
+                type:
+                  - boolean
+                  - 'null'
+              birthDate:
+                type:
+                  - boolean
+                  - 'null'
+              address:
+                type:
+                  - boolean
+                  - 'null'
+              parents:
+                type:
+                  - boolean
+                  - 'null'
+              color:
+                type:
+                  - boolean
+                  - 'null'
+            required:
+              - referenceName
+              - kinship
+              - name
+              - birthDate
+              - address
+              - parents
+              - color
+        lastManifest:
+          type: object
+          required:
+            - companyName
+            - date
+            - origin
+            - destiny
+            - product
+          properties:
+            companyName:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            date:
+              type:
+                - string
+                - 'null'
+              format: date-time
+            origin:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            destiny:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            product:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+        extras:
+          type: object
+          required:
+            - pis
+            - blacklist
+            - photos
+            - pix
+            - bankAccount
+          properties:
+            pis:
+              type:
+                - boolean
+                - 'null'
+            blacklist:
+              type:
+                - boolean
+                - 'null'
+            photos:
+              type:
+                - boolean
+                - 'null'
+            pix:
+              type:
+                - boolean
+                - 'null'
+            bankAccount:
+              type:
+                - boolean
+                - 'null'
+        driverReference:
+          type: object
+          required:
+            - reference
+            - experienceTime
+            - anttDate
+            - shaftsQuantity
+          properties:
+            reference:
+              type:
+                - string
+                - 'null'
+            experienceTime:
+              type:
+                - integer
+                - 'null'
+              description: Tempo de experiência em dias
+              minimum: 0
+            anttDate:
+              type:
+                - string
+                - 'null'
+              format: date-time
+            shaftsQuantity:
+              type:
+                - integer
+                - 'null'
+              minimum: 2
+        responsibleReference:
+          type: object
+          required:
+            - name
+            - type
+            - experieceTime
+            - truckQuantity
+          properties:
+            name:
+              type:
+                - string
+                - 'null'
+              minLength: 1
+            type:
+              type:
+                - string
+                - 'null'
+              enum:
+                - AGGREGATED
+                - REGISTERED
+                - COMISSION
+            experieceTime:
+              type:
+                - integer
+                - 'null'
+              minimum: 0
+              description: Tempo de experiência em dias
+            truckQuantity:
+              type:
+                - integer
+                - 'null'
+              minimum: 0
+      required:
+        - approved
+        - reprovedReason
+        - score
+        - gr
+        - isCnpj
+        - driverInfo
+        - documents
+        - companyReferences
+        - personalReference
+        - lastManifest
+        - extras
+        - driverReference
+        - responsibleReference
     Error:
       title: Error
       type: object
