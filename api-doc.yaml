@@ -2895,7 +2895,7 @@ paths:
         in: path
         required: true
     put:
-      summary: ''
+      summary: Update registration form
       operationId: put-registration-form-formId
       responses:
         '200':
@@ -3082,8 +3082,33 @@ paths:
                     items:
                       type: object
                       properties:
-                        '':
-                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        licensePlate:
+                          type:
+                            - boolean
+                            - 'null'
+                        travelQuantity:
+                          type:
+                            - integer
+                            - 'null'
+                        product:
+                          type:
+                            - string
+                            - 'null'
+                        date:
+                          type:
+                            - string
+                            - 'null'
+                          format: date-time
+                      required:
+                        - name
+                        - licensePlate
+                        - travelQuantity
+                        - product
+                        - date
                 required:
                   - approved
                   - reprovedReason
@@ -3094,6 +3119,7 @@ paths:
                   - lastManifest
                   - driverReference
                   - responsibleReference
+                  - companyReference
 components:
   schemas:
     Error:
