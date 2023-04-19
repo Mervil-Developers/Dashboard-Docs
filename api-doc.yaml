@@ -2924,7 +2924,11 @@ paths:
                     type:
                       - boolean
                       - 'null'
-                  driver:
+                  isCnpj:
+                    type:
+                      - boolean
+                      - 'null'
+                  driverInfo:
                     type: object
                     required:
                       - name
@@ -2983,6 +2987,81 @@ paths:
                         - primaryCity
                         - secondaryName
                         - secondaryCity
+                  companyReferences:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        licensePlate:
+                          type:
+                            - boolean
+                            - 'null'
+                        travelQuantity:
+                          type:
+                            - integer
+                            - 'null'
+                        product:
+                          type:
+                            - string
+                            - 'null'
+                        date:
+                          type:
+                            - string
+                            - 'null'
+                          format: date-time
+                      required:
+                        - name
+                        - licensePlate
+                        - travelQuantity
+                        - product
+                        - date
+                  personalReference:
+                    type: array
+                    items:
+                      type: object
+                      minProperties: 0
+                      properties:
+                        referenceName:
+                          type:
+                            - string
+                            - 'null'
+                        kinship:
+                          type:
+                            - string
+                            - 'null'
+                          description: Parentesco
+                        name:
+                          type:
+                            - boolean
+                            - 'null'
+                        birthDate:
+                          type:
+                            - boolean
+                            - 'null'
+                        address:
+                          type:
+                            - boolean
+                            - 'null'
+                        parents:
+                          type:
+                            - boolean
+                            - 'null'
+                        color:
+                          type:
+                            - boolean
+                            - 'null'
+                      required:
+                        - referenceName
+                        - kinship
+                        - name
+                        - birthDate
+                        - address
+                        - parents
+                        - color
                   lastManifest:
                     type: object
                     required:
@@ -3017,6 +3096,31 @@ paths:
                           - string
                           - 'null'
                         minLength: 1
+                  extras:
+                    type: object
+                    required:
+                      - pis
+                    properties:
+                      pis:
+                        type:
+                          - boolean
+                          - 'null'
+                      blacklist:
+                        type:
+                          - boolean
+                          - 'null'
+                      photos:
+                        type:
+                          - boolean
+                          - 'null'
+                      pix:
+                        type:
+                          - boolean
+                          - 'null'
+                      bankAccount:
+                        type:
+                          - boolean
+                          - 'null'
                   driverReference:
                     type: object
                     required:
@@ -3077,49 +3181,19 @@ paths:
                           - integer
                           - 'null'
                         minimum: 0
-                  companyReference:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type:
-                            - string
-                            - 'null'
-                        licensePlate:
-                          type:
-                            - boolean
-                            - 'null'
-                        travelQuantity:
-                          type:
-                            - integer
-                            - 'null'
-                        product:
-                          type:
-                            - string
-                            - 'null'
-                        date:
-                          type:
-                            - string
-                            - 'null'
-                          format: date-time
-                      required:
-                        - name
-                        - licensePlate
-                        - travelQuantity
-                        - product
-                        - date
                 required:
                   - approved
                   - reprovedReason
                   - score
                   - gr
-                  - driver
+                  - driverInfo
                   - documents
+                  - companyReferences
+                  - personalReference
                   - lastManifest
+                  - extras
                   - driverReference
                   - responsibleReference
-                  - companyReference
 components:
   schemas:
     Error:
