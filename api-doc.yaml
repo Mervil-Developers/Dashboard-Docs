@@ -2952,6 +2952,37 @@ paths:
                           - string
                           - 'null'
                         minLength: 1
+                  documents:
+                    type: array
+                    description: 'Posição 0 é proprietário, 1 é motorista, 2 é cavalo, resto é carreta.'
+                    items:
+                      type: object
+                      properties:
+                        primaryName:
+                          type:
+                            - string
+                            - 'null'
+                          minLength: 1
+                        primaryCity:
+                          type:
+                            - string
+                            - 'null'
+                          minLength: 1
+                        secondaryName:
+                          type:
+                            - string
+                            - 'null'
+                          minLength: 1
+                        secondaryCity:
+                          type:
+                            - string
+                            - 'null'
+                          minLength: 1
+                      required:
+                        - primaryName
+                        - primaryCity
+                        - secondaryName
+                        - secondaryCity
                   lastManifest:
                     type: object
                     required:
@@ -2986,11 +3017,13 @@ paths:
                           - string
                           - 'null'
                         minLength: 1
-                  reference:
+                  driverReference:
                     type: object
                     required:
                       - reference
                       - experienceTime
+                      - anttDate
+                      - shaftsQuantity
                     properties:
                       reference:
                         type:
@@ -3001,14 +3034,66 @@ paths:
                           - integer
                           - 'null'
                         description: Tempo de experiência em dias
+                        minimum: 0
+                      anttDate:
+                        type:
+                          - string
+                          - 'null'
+                        format: date-time
+                      shaftsQuantity:
+                        type:
+                          - integer
+                          - 'null'
+                        minimum: 2
+                  responsibleReference:
+                    type: object
+                    required:
+                      - name
+                      - type
+                      - experieceTime
+                      - truckQuantity
+                    properties:
+                      name:
+                        type:
+                          - string
+                          - 'null'
+                        minLength: 1
+                      type:
+                        type:
+                          - string
+                          - 'null'
+                        enum:
+                          - AGGREGATED
+                          - REGISTERED
+                          - COMISSION
+                      experieceTime:
+                        type:
+                          - integer
+                          - 'null'
+                        minimum: 0
+                        description: Tempo de experiência em dias
+                      truckQuantity:
+                        type:
+                          - integer
+                          - 'null'
+                        minimum: 0
+                  companyReference:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        '':
+                          type: string
                 required:
                   - approved
                   - reprovedReason
                   - score
                   - gr
                   - driver
+                  - documents
                   - lastManifest
-                  - reference
+                  - driverReference
+                  - responsibleReference
 components:
   schemas:
     Error:
