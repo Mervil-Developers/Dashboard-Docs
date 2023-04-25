@@ -2886,7 +2886,7 @@ paths:
                 type: object
                 properties:
                   workspaceId:
-                    type: integer
+                    type: string
                   referencedBy:
                     type: string
                     format: uuid
@@ -2991,7 +2991,9 @@ components:
           type: array
           description: 'Posição 0 é proprietário, 1 é motorista, 2 é cavalo, resto é carreta.'
           items:
-            type: object
+            type:
+              - object
+              - 'null'
             properties:
               primaryName:
                 type:
