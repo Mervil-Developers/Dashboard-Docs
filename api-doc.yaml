@@ -3218,6 +3218,25 @@ components:
                 - integer
                 - 'null'
               minimum: 0
+        observations:
+          type: object
+          required:
+            - documents
+            - bankAccount
+            - form
+          properties:
+            documents:
+              type:
+                - string
+                - 'null'
+            bankAccount:
+              type:
+                - string
+                - 'null'
+            form:
+              type:
+                - string
+                - 'null'
       required:
         - approved
         - reprovedReason
@@ -3232,6 +3251,7 @@ components:
         - extras
         - driverReference
         - responsibleReference
+        - observations
     Error:
       title: Error
       type: object
