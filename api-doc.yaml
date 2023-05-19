@@ -2893,6 +2893,54 @@ paths:
                 required:
                   - workspaceId
                   - referencedBy
+    get:
+      summary: List Registration Forms
+      operationId: get-registration-form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    createdBy:
+                      type: object
+                      required:
+                        - id
+                        - username
+                      properties:
+                        id:
+                          type: string
+                        username:
+                          type: string
+                    progress:
+                      type: number
+                      minimum: 0
+                      maximum: 100
+                  required:
+                    - id
+                    - createdBy
+                    - progress
+      parameters:
+        - schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          in: query
+          name: minimumProgress
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: limit
   '/registration-form/{formId}':
     parameters:
       - schema:
