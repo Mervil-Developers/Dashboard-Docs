@@ -3239,7 +3239,7 @@ components:
           required:
             - name
             - type
-            - experieceTime
+            - experienceTime
             - truckQuantity
           properties:
             name:
@@ -3255,7 +3255,7 @@ components:
                 - AGGREGATED
                 - REGISTERED
                 - COMISSION
-            experieceTime:
+            experienceTime:
               type:
                 - integer
                 - 'null'
@@ -3300,6 +3300,7 @@ components:
         - driverReference
         - responsibleReference
         - observations
+      description: ''
     Error:
       title: Error
       type: object
